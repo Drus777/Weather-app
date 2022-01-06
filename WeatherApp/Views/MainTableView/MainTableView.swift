@@ -36,7 +36,7 @@ final class MainTableView: UIView {
         super.init(frame: frame)
     }
     
-    convenience init(_ model: MainTableModel) {
+    init(_ model: MainTableModel) {
         self.init()
         self.model = model
         self.model?.loadData()
