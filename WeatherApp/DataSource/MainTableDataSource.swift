@@ -11,14 +11,16 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
     
     var cellModels: [CellModelNames : CellModels]?
     
-    private var model: HourlyWeatherModel?
+    private var hourlyWeatherModel: HourlyWeatherModel?
+    private var detailWeatherModel: DetailWeatherModel?
     
-    init(_ model: HourlyWeatherModel) {
-        self.model = model
+    init(_ hourlyWeatherModel: HourlyWeatherModel, detailWeatherModel: DetailWeatherModel) {
+        self.hourlyWeatherModel = hourlyWeatherModel
+        self.detailWeatherModel = detailWeatherModel
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -26,7 +28,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
         if section == 2 {
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.DailyWeatherTableCellModel] as? DailyWeatherTableCellModel
+                let cellModel = cellModels[.dailyWeatherTableCellModel] as? DailyWeatherTableCellModel
             else { return 0 }
             return cellModel.dailyWeather.count
         }
@@ -41,7 +43,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
             else { return .init() }
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.CurrentWeatherCellModel]
+                let cellModel = cellModels[.currentWeatherCellModel]
             else { return cell }
             cell.fill(by: cellModel)
             return cell
@@ -49,11 +51,11 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherTableCell.identifier, for: indexPath) as? HourlyWeatherTableCell
             else { return .init() }
-            cell.model = model
+            cell.model = hourlyWeatherModel
             
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.HourlyWeatherTableCellModel]
+                let cellModel = cellModels[.hourlyWeatherTableCellModel]
             else { return cell }
             cell.fill(by: cellModel)
             return cell
@@ -63,11 +65,16 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
             else { return .init() }
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.DailyWeatherTableCellModel]
+                let cellModel = cellModels[.dailyWeatherTableCellModel]
             else { return cell }
             cell.fill(by: cellModel, index: indexPath.row)
             return cell
             
+        case 3:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailWeatherTableCell.identifier, for: indexPath) as? DetailWeatherTableCell
+            else { return .init() }
+            cell.model = detailWeatherModel
+            return cell
         default:
             break
         }

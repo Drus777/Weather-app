@@ -7,8 +7,12 @@
 
 import Foundation
 
+protocol DetailWeatherModel: AnyObject {
+    var detailWeatherCollectionDataSource: DetailWeatherCollectionDataSource { get }
+}
+
 protocol HourlyWeatherModel: AnyObject {
-    var hourlyWeatherDataSource: HourlyWeatherCollectionDataSource { get }
+    var hourlyWeatherCollectionDataSource: HourlyWeatherCollectionDataSource { get }
 }
 
 protocol MainTableModel: AnyObject {
@@ -18,18 +22,20 @@ protocol MainTableModel: AnyObject {
     func loadData()
 }
 
-final class BaseModel: MainTableModel, HourlyWeatherModel {
+final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
     
     private let networkController = NetworkController()
     private let locationService = LocationService.shared
     
-    lazy var mainTableDataSource = MainTableDataSource(self)
-    lazy var hourlyWeatherDataSource = HourlyWeatherCollectionDataSource()
+    lazy var mainTableDataSource = MainTableDataSource(self, detailWeatherModel: self)
+    lazy var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
+    lazy var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
     
     private var cellModels: [CellModelNames: CellModels] = [:] {
         didSet {
             mainTableDataSource.cellModels = cellModels
-            hourlyWeatherDataSource.cellModels = cellModels
+            hourlyWeatherCollectionDataSource.cellModels = cellModels
+            detailWeatherCollectionDataSource.cellModels = cellModels
             cellModelsDidChange?()
         }
     }
@@ -60,16 +66,17 @@ final class BaseModel: MainTableModel, HourlyWeatherModel {
             let maxTemp = dailyTemp.max,
             let minTemp = dailyTemp.min
         else { return }
-        cellModels[.CurrentWeatherCellModel] = CurrentWeatherCellModel(
+        cellModels[.currentWeatherCellModel] = CurrentWeatherCellModel(
             cityName: cityName,
             currentTemp: currentTemp,
             description: description,
             minTemp: maxTemp,
             maxTemp: minTemp
         )
-        cellModels[.HourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
-        cellModels[.HourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(hourlyWeather: model.hourly)
-        cellModels[.DailyWeatherTableCellModel] = DailyWeatherTableCellModel(dailyWeather: model.daily)
+        cellModels[.hourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
+        cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(hourlyWeather: model.hourly)
+        cellModels[.dailyWeatherTableCellModel] = DailyWeatherTableCellModel(dailyWeather: model.daily)
+        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel()
     }
 }
 

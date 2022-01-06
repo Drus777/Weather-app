@@ -7,8 +7,6 @@
 
 import UIKit
 
-//typealias UpdateData = Fillable & Output
-
 final class MainTableView: UIView {
     
     var model: MainTableModel?
@@ -73,6 +71,7 @@ final class MainTableView: UIView {
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
         tableView.register(DailyWeatherTableCell.self, forCellReuseIdentifier: DailyWeatherTableCell.identifier)
+        tableView.register(DetailWeatherTableCell.self, forCellReuseIdentifier: DetailWeatherTableCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
@@ -103,13 +102,17 @@ extension MainTableView: UITableViewDelegate {
             return 160
         }
         
+        if indexPath.section == 3 {
+            return 500
+        }
+        
         return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 2 {
-            return 10
-        }
+//        if section == 2 {
+//            return 0
+//        }
         return 0
     }
     

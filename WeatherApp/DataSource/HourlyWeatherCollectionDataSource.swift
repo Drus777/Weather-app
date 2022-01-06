@@ -15,7 +15,7 @@ final class HourlyWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
         
         guard
             let cellModels = cellModels,
-            let cellModel = cellModels[.HourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
+            let cellModel = cellModels[.hourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
         else { return 0 }
         return cellModel.hourlyWeather.count
     }
@@ -26,7 +26,7 @@ final class HourlyWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
         
         guard
             let cellModels = cellModels,
-            let cellModel = cellModels[.HourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
+            let cellModel = cellModels[.hourlyWeatherCollectionCellModel]
         else { return cell }
         
         cell.fill(by: cellModel, index: indexPath.item)

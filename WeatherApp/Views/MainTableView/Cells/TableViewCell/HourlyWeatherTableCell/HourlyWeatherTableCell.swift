@@ -13,7 +13,7 @@ final class HourlyWeatherTableCell: UITableViewCell {
     
     var model: HourlyWeatherModel? {
         didSet {
-            collectionView.dataSource = model?.hourlyWeatherDataSource
+            collectionView.dataSource = model?.hourlyWeatherCollectionDataSource
             collectionView.reloadData()
         }
     }
@@ -117,9 +117,10 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width ) / 6
+        let width = collectionView.bounds.width / 6
         let height = collectionView.bounds.height
         return .init(width: width, height: height)
+//        return UICollectionView.layoutFittingExpandedSize
     }
 }
 
