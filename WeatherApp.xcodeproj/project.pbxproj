@@ -38,6 +38,7 @@
 		78FAA02D2787058B008B558A /* DetailWeatherCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA02C2787058B008B558A /* DetailWeatherCollectionCell.swift */; };
 		78FAA02F2787097B008B558A /* DetailWeatherCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA02E2787097B008B558A /* DetailWeatherCollectionDataSource.swift */; };
 		78FAA03127870AB9008B558A /* DetailWeatherCollectionCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA03027870AB9008B558A /* DetailWeatherCollectionCellModel.swift */; };
+		78FAA03427885A36008B558A /* DataModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA03327885A36008B558A /* DataModelFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		78FAA02C2787058B008B558A /* DetailWeatherCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherCollectionCell.swift; sourceTree = "<group>"; };
 		78FAA02E2787097B008B558A /* DetailWeatherCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherCollectionDataSource.swift; sourceTree = "<group>"; };
 		78FAA03027870AB9008B558A /* DetailWeatherCollectionCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherCollectionCellModel.swift; sourceTree = "<group>"; };
+		78FAA03327885A36008B558A /* DataModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				785DB1EC277CC82B00DC6C68 /* ViewControllersFactory.swift */,
+				78FAA03327885A36008B558A /* DataModelFactory.swift */,
 			);
 			path = Factory;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78FAA03427885A36008B558A /* DataModelFactory.swift in Sources */,
 				78FAA01727859350008B558A /* HourlyWeatherCollectionDataSource.swift in Sources */,
 				783DDAD227831907005D937B /* CurrentWeatherCellModel.swift in Sources */,
 				785DB1F9277F11E800DC6C68 /* HourlyWeatherTableCell.swift in Sources */,

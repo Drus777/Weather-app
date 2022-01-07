@@ -13,11 +13,11 @@ final class DetailWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-//        guard
-//            let cellModels = cellModels,
-//            let cellModel = cellModels[.detailWeatherCollectionCellModel]
-//        else { return 0 }
-        return 8
+        guard
+            let cellModels = cellModels,
+            let cellModel = cellModels[.detailWeatherCollectionCellModel] as? DetailWeatherCollectionCellModel
+        else { return 0 }
+        return cellModel.dataModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -28,7 +28,7 @@ final class DetailWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
             let cellModels = cellModels,
             let cellModel = cellModels[.detailWeatherCollectionCellModel]
         else { return cell }
-//        cell.fill(by: cellModel, index: indexPath.item)
+        cell.fill(by: cellModel, index: indexPath.item)
         return cell
     }
 }

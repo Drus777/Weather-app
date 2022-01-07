@@ -13,11 +13,36 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     
     // MARK: - UI
     
-    private var dayLabel: UILabel = {
+    
+    private var iconImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.tintColor = .systemGray4
+        return imageView
+    }()
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.numberOfLines = .zero
+        label.textColor = .systemGray4
+        return label
+    }()
+    
+    private var dataLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 21, weight: .medium)
         label.numberOfLines = .zero
-        label.textColor = .green
+        label.textColor = .white
+        return label
+    }()
+    
+    private lazy var infoLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.numberOfLines = .zero
+        label.textColor = .white
         return label
     }()
     
@@ -36,7 +61,10 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     
     private func configureViews() {
         configureCell()
-        configureLabel()
+        configureIconImageView()
+        configureTitleLabel()
+        configureDataLabel()
+        configureInfoLabel()
     }
     
     private func configureCell() {
@@ -44,19 +72,58 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 15
     }
     
-    private func configureLabel() {
-        contentView.addSubview(dayLabel)
-        dayLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func configureIconImageView() {
+        contentView.addSubview(iconImageView)
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            dayLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            dayLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            iconImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            iconImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            iconImageView.heightAnchor.constraint(equalToConstant: 20),
+            iconImageView.widthAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    private func configureTitleLabel() {
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+        ])
+    }
+    
+    private func configureDataLabel() {
+        contentView.addSubview(dataLabel)
+        dataLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dataLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            dataLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    private func configureInfoLabel() {
+        contentView.addSubview(infoLabel)
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            infoLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            infoLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
+            infoLabel.topAnchor.constraint(greaterThanOrEqualTo: dataLabel.bottomAnchor, constant: 8),
+            infoLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }
 
 extension DetailWeatherCollectionCell: Fillable {
     func fill(by cellModel: CellModels, index: Int?) {
-        guard let cellModel = cellModel as? DetailWeatherCollectionCellModel else { return }
-        
+        guard
+            let cellModel = cellModel as? DetailWeatherCollectionCellModel,
+            let index = index
+        else { return }
+        iconImageView.image = UIImage(systemName: cellModel.dataModel[index].icon)
+        titleLabel.text = cellModel.dataModel[index].title
+        dataLabel.text = cellModel.dataModel[index].data
+        if let info = cellModel.dataModel[index].info {
+            infoLabel.text = info
+        }
     }
 }
