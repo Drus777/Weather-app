@@ -34,46 +34,46 @@ struct DataModelFactory {
         let sunriseString = dateFormatter.string(from: sunriseDate)
         
         let uvIndexModel = DetailDataModel(
-            icon: UIImage(systemName: "sun.min.fill")!,
+            icon: "sun.min.fill",
             title: "УФ-ИНДЕКС",
             data: uvi <= 2 ? "\(Int(uvi))\nНизкий" : "\(Int(uvi))\nВысокий",
             info: uvi <= 2 ? "Индекс останется низким до конца дня" : "Индекс останется высоким до конца дня"
         )
         let sunsetModel = DetailDataModel(
-            icon: Int(currentDate) < sunrise ? UIImage(systemName: "sunrise.fill")! : UIImage(systemName: "sunset.fill")!,
+            icon: Int(currentDate) < sunrise ? "sunrise.fill" : "sunset.fill",
             title: Int(currentDate) < sunrise ? "ЗАХОД СОЛНЦА" : "ВОСХОД СОЛНЦА",
             data: Int(currentDate) < sunrise ? "\(sunsetString)" : "\(sunriseString)",
             info: Int(currentDate) < sunrise ? "Восход: \(sunriseString)" : "Закат: \(sunsetString)"
         )
         let windModel = DetailDataModel(
-            icon: UIImage(systemName: "wind")!,
+            icon: "wind",
             title: "ВЕТЕР",
             data: "\(Int(windSpeed)) км/ч"
         )
         let precipitationModel = DetailDataModel(
-            icon: UIImage(systemName: "cloud.snow.fill")!,
+            icon: "cloud.snow.fill",
             title: "ОСАДКИ",
             data: "\(model.daily[0].snow ?? 0) мм\nза сутки"
         )
         let fillsLikeModel = DetailDataModel(
-            icon: UIImage(systemName: "thermometer")!,
+            icon: "thermometer",
             title: "ОЩУЩАЕТСЯ КАК",
             data: "\(Int(feelsLike))°",
             info: "По ощущениям холоднее из-за ветра"
         )
         let humidityModel = DetailDataModel(
-            icon: UIImage(systemName: "humidity")!,
+            icon: "humidity",
             title: "ВЛАЖНОСТЬ",
             data: "\(humidity)%",
             info: "Точка росы\nсейчас: \(dewPoint)°"
         )
         let visabilityModel = DetailDataModel(
-            icon: UIImage(systemName: "eye.fill")!,
+            icon: "eye.fill",
             title: "ВИДИМОСТЬ",
             data: "\(visability / 1000) км"
         )
         let pressureModel = DetailDataModel(
-            icon: UIImage(systemName: "gauge")!,
+            icon: "gauge",
             title: "ДАВЛЕНИЕ",
             data: "\(pressure)\nгПа"
         )

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import UIKit
 
 struct DetailDataModel {
-    var icon: UIImage
+    var icon: String
     var title: String
     var data: String
     var info: String?

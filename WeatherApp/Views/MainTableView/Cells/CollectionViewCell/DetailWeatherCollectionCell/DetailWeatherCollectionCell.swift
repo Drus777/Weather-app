@@ -119,7 +119,7 @@ extension DetailWeatherCollectionCell: Fillable {
             let cellModel = cellModel as? DetailWeatherCollectionCellModel,
             let index = index
         else { return }
-        iconImageView.image = cellModel.dataModel[index].icon
+        iconImageView.image = UIImage(systemName: cellModel.dataModel[index].icon)
         titleLabel.text = cellModel.dataModel[index].title
         dataLabel.text = cellModel.dataModel[index].data
         if let info = cellModel.dataModel[index].info {
