@@ -104,8 +104,8 @@ extension HourlyWeatherCollectionCell: Fillable {
             let time =  cellModel.weatherModel.hourly[index].dt,
             let temp = cellModel.weatherModel.hourly[index].temp,
             let icon = cellModel.weatherModel.hourly[index].weather[0].icon,
-            let sunrise = cellModel.weatherModel.current.sunrise,
-            let sunset = cellModel.weatherModel.current.sunset
+            let sunrise = cellModel.weatherModel.daily[0].sunrise,
+            let sunset = cellModel.weatherModel.daily[0].sunset
         else { return }
         
         let date = Date(timeIntervalSince1970: TimeInterval(time))
