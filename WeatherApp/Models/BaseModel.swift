@@ -76,7 +76,9 @@ final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
         cellModels[.hourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
         cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(hourlyWeather: model.hourly)
         cellModels[.dailyWeatherTableCellModel] = DailyWeatherTableCellModel(dailyWeather: model.daily)
-        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel()
+        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel(
+            dataModel: DataModelFactory.detailWeatherDataModel(model)
+        )
     }
 }
 

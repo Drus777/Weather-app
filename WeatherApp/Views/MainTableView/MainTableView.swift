@@ -103,7 +103,7 @@ extension MainTableView: UITableViewDelegate {
         }
         
         if indexPath.section == 3 {
-            return 500
+            return tableView.bounds.width * 2
         }
         
         return UITableView.automaticDimension

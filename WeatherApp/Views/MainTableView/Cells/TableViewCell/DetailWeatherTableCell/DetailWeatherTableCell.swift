@@ -69,6 +69,6 @@ extension DetailWeatherTableCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.bounds.width - 10) / 2
 //        let height = collectionView.bounds.height
-        return .init(width: width, height: 50)
+        return .init(width: width, height: width)
     }
 }
