@@ -20,6 +20,8 @@ struct Temperature: Codable {
 struct CurrentWeather: Codable {
     var temp: Double?
     var weather: [Weather]
+    var sunrise: Int?
+    var sunset: Int?
 }
 
 struct HourlyWeather: Codable {

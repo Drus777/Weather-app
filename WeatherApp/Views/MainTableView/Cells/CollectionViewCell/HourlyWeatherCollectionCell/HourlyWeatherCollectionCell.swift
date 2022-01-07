@@ -89,13 +89,23 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
 // MARK: - Fillable
 
 extension HourlyWeatherCollectionCell: Fillable {
+    
+    func dateConvertion(unixTime: Double, dateFormat: String) -> String {
+        let time = NSDate(timeIntervalSince1970: unixTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from: time as Date)
+    }
+    
     func fill(by cellModel: CellModels, index: Int?) {
         guard
             let cellModel = cellModel as? HourlyWeatherCollectionCellModel,
             let index = index,
-            let time = cellModel.hourlyWeather[index].dt,
-            let temp = cellModel.hourlyWeather[index].temp,
-            let icon = cellModel.hourlyWeather[index].weather[0].icon
+            let time =  cellModel.weatherModel.hourly[index].dt,
+            let temp = cellModel.weatherModel.hourly[index].temp,
+            let icon = cellModel.weatherModel.hourly[index].weather[0].icon,
+            let sunrise = cellModel.weatherModel.current.sunrise,
+            let sunset = cellModel.weatherModel.current.sunset
         else { return }
         
         let date = Date(timeIntervalSince1970: TimeInterval(time))
@@ -103,10 +113,27 @@ extension HourlyWeatherCollectionCell: Fillable {
         dateformater.dateFormat = "HH"
         let dateString = dateformater.string(from: date)
         
+        let sunriseHourMinute = dateConvertion(unixTime: Double(sunrise), dateFormat: "hh:mm")
+        let sunsetHourMinute = dateConvertion(unixTime: Double(sunset), dateFormat: "hh:mm")
+        
+        let sunriseHour = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
+        let sunsetHour = dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
+        
         if index == 0 {
             timeLabel.text = "Сейчас"
             tempLabel.text = "\(Int(temp))°"
             iconImageView.image = UIImage(named: icon)
+            
+        } else if dateString == sunriseHour {
+            timeLabel.text = sunriseHourMinute
+            iconImageView.image = UIImage(systemName: "sunrise")
+            tempLabel.text = "Восход солнца"
+            
+        } else if dateString == sunsetHour {
+            timeLabel.text = sunsetHourMinute
+            iconImageView.image = UIImage(systemName: "sunset")
+            tempLabel.text = "Заход солнца"
+            
         } else {
             timeLabel.text = dateString
             tempLabel.text = "\(Int(temp))°"

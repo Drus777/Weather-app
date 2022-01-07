@@ -9,9 +9,9 @@ import Foundation
 
 final class HourlyWeatherCollectionCellModel: CellModels {
     
-    var hourlyWeather: [HourlyWeather]
+    var weatherModel: WeatherModel
     
-    init(hourlyWeather: [HourlyWeather]) {
-        self.hourlyWeather = hourlyWeather
+    init(weatherModel: WeatherModel) {
+        self.weatherModel = weatherModel
     }
 }

@@ -17,7 +17,7 @@ final class HourlyWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
             let cellModels = cellModels,
             let cellModel = cellModels[.hourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
         else { return 0 }
-        return cellModel.hourlyWeather.count
+        return cellModel.weatherModel.hourly.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
