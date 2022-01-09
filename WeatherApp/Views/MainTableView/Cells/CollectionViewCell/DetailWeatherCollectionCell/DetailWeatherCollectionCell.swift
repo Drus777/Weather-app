@@ -13,7 +13,6 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     
     // MARK: - UI
     
-    
     private var iconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit

@@ -51,13 +51,15 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherTableCell.identifier, for: indexPath) as? HourlyWeatherTableCell
             else { return .init() }
-            cell.model = hourlyWeatherModel
+            cell.dataSource = hourlyWeatherModel?.hourlyWeatherCollectionDataSource
             
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.hourlyWeatherTableCellModel]
+                let tableCellModel = cellModels[.hourlyWeatherTableCellModel],
+                let collectionCellModel = cellModels[.hourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
             else { return cell }
-            cell.fill(by: cellModel)
+            cell.cellModel = collectionCellModel
+            cell.fill(by: tableCellModel)
             return cell
             
         case 2:

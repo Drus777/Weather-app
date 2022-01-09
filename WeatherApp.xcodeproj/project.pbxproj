@@ -39,6 +39,7 @@
 		78FAA02F2787097B008B558A /* DetailWeatherCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA02E2787097B008B558A /* DetailWeatherCollectionDataSource.swift */; };
 		78FAA03127870AB9008B558A /* DetailWeatherCollectionCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA03027870AB9008B558A /* DetailWeatherCollectionCellModel.swift */; };
 		78FAA03427885A36008B558A /* DataModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA03327885A36008B558A /* DataModelFactory.swift */; };
+		78FAA0372789A437008B558A /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA0362789A437008B558A /* String+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		78FAA02E2787097B008B558A /* DetailWeatherCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherCollectionDataSource.swift; sourceTree = "<group>"; };
 		78FAA03027870AB9008B558A /* DetailWeatherCollectionCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherCollectionCellModel.swift; sourceTree = "<group>"; };
 		78FAA03327885A36008B558A /* DataModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelFactory.swift; sourceTree = "<group>"; };
+		78FAA0362789A437008B558A /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		785DB1BA277C62AE00DC6C68 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				78FAA0352789A41A008B558A /* Extension */,
 				785DB1CF277C645200DC6C68 /* Main */,
 				785DB1D0277C65B000DC6C68 /* Resource */,
 				785DB1E0277CB0AB00DC6C68 /* Services */,
@@ -321,6 +324,14 @@
 			path = DetailWeatherCollectionCell;
 			sourceTree = "<group>";
 		};
+		78FAA0352789A41A008B558A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				78FAA0362789A437008B558A /* String+Utils.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -415,6 +426,7 @@
 				785DB1DF277CA32100DC6C68 /* MainTableDataSource.swift in Sources */,
 				785DB1E5277CB47B00DC6C68 /* LocationService.swift in Sources */,
 				785DB1BC277C62AE00DC6C68 /* AppDelegate.swift in Sources */,
+				78FAA0372789A437008B558A /* String+Utils.swift in Sources */,
 				78FAA02A27870480008B558A /* DetailWeatherTableCell.swift in Sources */,
 				785DB1ED277CC82B00DC6C68 /* ViewControllersFactory.swift in Sources */,
 				785DB1D7277C862C00DC6C68 /* MainTableView.swift in Sources */,

@@ -40,7 +40,7 @@ struct DataModelFactory {
             info: uvi <= 2 ? "Индекс останется низким до конца дня" : "Индекс останется высоким до конца дня"
         )
         let sunsetModel = DetailDataModel(
-            icon: Int(currentDate) < sunrise ? "sunrise.fill" : "sunset.fill",
+            icon: Int(currentDate) < sunrise ? "sunset.fill" : "sunrise.fill",
             title: Int(currentDate) < sunrise ? "ЗАХОД СОЛНЦА" : "ВОСХОД СОЛНЦА",
             data: Int(currentDate) < sunrise ? "\(sunsetString)" : "\(sunriseString)",
             info: Int(currentDate) < sunrise ? "Восход: \(sunriseString)" : "Закат: \(sunsetString)"

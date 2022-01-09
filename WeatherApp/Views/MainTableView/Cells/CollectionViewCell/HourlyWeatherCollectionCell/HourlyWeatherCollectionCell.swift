@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 final class HourlyWeatherCollectionCell: UICollectionViewCell {
     
     static let identifier = "HourlyWeatherCollectionCell"
@@ -32,6 +34,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
     private var iconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .systemYellow
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -90,11 +93,11 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
 
 extension HourlyWeatherCollectionCell: Fillable {
     
-    func dateConvertion(unixTime: Double, dateFormat: String) -> String {
-        let time = NSDate(timeIntervalSince1970: unixTime)
+    private func dateConvertion(unixTime: Double, dateFormat: String) -> String {
+        let time = Date(timeIntervalSince1970: unixTime)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from: time as Date)
+        return dateFormatter.string(from: time)
     }
     
     func fill(by cellModel: CellModels, index: Int?) {
@@ -108,14 +111,10 @@ extension HourlyWeatherCollectionCell: Fillable {
             let sunset = cellModel.weatherModel.daily[0].sunset
         else { return }
         
-        let date = Date(timeIntervalSince1970: TimeInterval(time))
-        let dateformater = DateFormatter()
-        dateformater.dateFormat = "HH"
-        let dateString = dateformater.string(from: date)
+        let sunriseHourMinute = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH:mm")
+        let sunsetHourMinute = dateConvertion(unixTime: Double(sunset), dateFormat: "HH:mm")
         
-        let sunriseHourMinute = dateConvertion(unixTime: Double(sunrise), dateFormat: "hh:mm")
-        let sunsetHourMinute = dateConvertion(unixTime: Double(sunset), dateFormat: "hh:mm")
-        
+        let timeHour = dateConvertion(unixTime: Double(time), dateFormat: "HH")
         let sunriseHour = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
         let sunsetHour = dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
         
@@ -123,21 +122,20 @@ extension HourlyWeatherCollectionCell: Fillable {
             timeLabel.text = "Сейчас"
             tempLabel.text = "\(Int(temp))°"
             iconImageView.image = UIImage(named: icon)
-            
-        } else if dateString == sunriseHour {
+        } else if timeHour == sunriseHour {
             timeLabel.text = sunriseHourMinute
-            iconImageView.image = UIImage(systemName: "sunrise")
+            iconImageView.image = UIImage(systemName: "sunrise.fill")
             tempLabel.text = "Восход солнца"
-            
-        } else if dateString == sunsetHour {
+        } else if timeHour == sunsetHour {
             timeLabel.text = sunsetHourMinute
-            iconImageView.image = UIImage(systemName: "sunset")
+            iconImageView.image = UIImage(systemName: "sunset.fill")
             tempLabel.text = "Заход солнца"
-            
         } else {
-            timeLabel.text = dateString
+            timeLabel.text = timeHour
             tempLabel.text = "\(Int(temp))°"
             iconImageView.image = UIImage(named: icon)
         }
     }
 }
+
+
