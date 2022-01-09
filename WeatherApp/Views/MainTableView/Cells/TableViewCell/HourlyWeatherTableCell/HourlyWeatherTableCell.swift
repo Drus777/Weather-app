@@ -20,8 +20,6 @@ final class HourlyWeatherTableCell: UITableViewCell {
         }
     }
     
-   private var index = 0
-    
     // MARK: - UI
     
     private var infoLabel: UILabel = {
@@ -121,12 +119,13 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let minWidth: CGFloat = collectionView.bounds.width / 6
         var textWidth: CGFloat = 0
         let height = collectionView.bounds.height
         
-        if let time = cellModel?.weatherModel.hourly[index].dt,
-           let temp = cellModel?.weatherModel.hourly[index].temp,
+        if let time = cellModel?.weatherModel.hourly[indexPath.item].dt,
+           let temp = cellModel?.weatherModel.hourly[indexPath.item].temp,
            let sunrise = cellModel?.weatherModel.daily[0].sunrise,
            let sunset = cellModel?.weatherModel.daily[0].sunset {
             
@@ -146,7 +145,6 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
             }
         }
         
-        index += 1
         return .init(width: max(minWidth, textWidth), height: height)
     }
     
