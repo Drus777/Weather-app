@@ -9,7 +9,9 @@ import UIKit
 
 final class BaseVC: UIViewController {
     
-    private let currentView: UIView?
+    private let currentView: Updating?
+    private  var model: MainTableModel?
+    private let locationService = LocationService.shared
     
     override func loadView() {
         view = currentView
@@ -17,15 +19,27 @@ final class BaseVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        model?.loadData()
+        bind()
     }
     
-    init(view: UIView) {
+    init(view: Updating, model: MainTableModel) {
         self.currentView = view
+        self.model = model
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         return nil
+    }
+    
+    private func bind() {
+        if let model = model as? BaseModel {
+            model.cellModelsDidChange = { [weak self] in
+                self?.currentView?.fill(by: model)
+                self?.currentView?.reloadData()
+            }
+        }
     }
 }
 

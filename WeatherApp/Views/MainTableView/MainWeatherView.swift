@@ -1,5 +1,5 @@
 //
-//  MainTableView.swift
+//  MainWeatherView.swift
 //  WeatherApp
 //
 //  Created by Andrey on 29.12.21.
@@ -7,9 +7,18 @@
 
 import UIKit
 
-final class MainTableView: UIView {
+protocol Updating where Self: UIView {
+    func fill(by model: BaseModel)
+    func reloadData()
+}
+
+final class MainWeatherView: UIView {
     
-    var model: MainTableModel?
+    private var dataSource: MainTableDataSource? {
+        didSet {
+            self.tableView.dataSource = dataSource
+        }
+    }
     
     // MARK: - UI
     
@@ -32,14 +41,7 @@ final class MainTableView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-    
-    init(_ model: MainTableModel) {
-        self.init()
-        self.model = model
-        self.model?.loadData()
         configureViews()
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -66,7 +68,6 @@ final class MainTableView: UIView {
     
     private func configureTableView() {
         addSubview(tableView)
-        tableView.dataSource = model?.mainTableDataSource
         tableView.delegate = self
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
@@ -80,17 +81,11 @@ final class MainTableView: UIView {
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
-    private func bind() {
-        model?.cellModelsDidChange = { [weak self] in
-            self?.tableView.reloadData()
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
 
-extension MainTableView: UITableViewDelegate {
+extension MainWeatherView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -118,5 +113,15 @@ extension MainTableView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView(frame: .zero)
+    }
+}
+
+extension MainWeatherView: Updating {
+    func fill(by model: BaseModel) {
+        self.dataSource = model.mainTableDataSource
+    }
+    
+    func reloadData() {
+        self.tableView.reloadData()
     }
 }

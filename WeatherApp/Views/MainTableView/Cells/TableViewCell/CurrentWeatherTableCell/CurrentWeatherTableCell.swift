@@ -106,8 +106,15 @@ final class CurrentWeatherTableCell: UITableViewCell {
 
 extension CurrentWeatherTableCell: Fillable {
     func fill(by cellModel: CellModels, index: Int? = nil) {
+        
         guard let cellModel = cellModel as? CurrentWeatherCellModel else { return }
-        cityNameLabel.text = cellModel.cityName
+        
+        LocationService.shared.getCityName { [ weak self] placemark in
+            if let placemark = placemark {
+                self?.cityNameLabel.text = placemark.locality
+            }
+        }
+        
         currentTempLabel.text = "\(Int(cellModel.currentTemp))°"
         descriptionLabel.text = cellModel.description
         minMaxTempLabel.text = "Макс.: \(Int(cellModel.maxTemp))°, мин.: \(Int(cellModel.minTemp))°"

@@ -11,14 +11,14 @@ import CoreLocation
 class NetworkController {
     
     private let locationService = LocationService.shared
-    
+
     private let host = "https://api.openweathermap.org/"
     private let apiService = APIService()
     
     func fetchWeatherData(completion: @escaping (Result<WeatherModel?, Error>) -> Void) {
         
         let lat = "\(locationService.lat)"
-        let lon = "\(locationService.lng)"
+        let lon = "\(locationService.lon)"
         
         let parameters = [
             URLQueryItem(name: "lat", value: lat),

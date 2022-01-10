@@ -9,22 +9,42 @@ import Foundation
 import CoreLocation
 
 final class LocationService: NSObject {
+    
     static let shared = LocationService()
     
     private let locationManager = CLLocationManager()
-    private var currentLocation: CLLocation?
+    private let geocoder = CLGeocoder()
     
     var lat: Double {
-        currentLocation?.coordinate.latitude ?? 0
+        return self.locationManager.location?.coordinate.latitude ?? 0
     }
     
-    var lng: Double {
-        currentLocation?.coordinate.longitude ?? 0
+    var lon: Double {
+        return self.locationManager.location?.coordinate.longitude ?? 0
     }
     
     override init() {
         super.init()
         setupLocation()
+    }
+    
+    func getCityName(completionHandler: @escaping (CLPlacemark?) -> Void ) {
+        
+        if let lastLocation = self.locationManager.location {
+            
+            geocoder.reverseGeocodeLocation(lastLocation,  completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    completionHandler(firstLocation)
+                }
+                else {
+                    completionHandler(nil)
+                }
+            })
+        }
+        else {
+            completionHandler(nil)
+        }
     }
     
     func start() {
@@ -44,9 +64,6 @@ final class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if !locations.isEmpty, currentLocation == nil {
-            currentLocation = locations.first
-            stop()
-        }
+        stop()
     }
 }
