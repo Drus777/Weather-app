@@ -48,12 +48,14 @@ struct DataModelFactory {
         let windModel = DetailDataModel(
             icon: "wind",
             title: "ВЕТЕР",
-            data: "\(Int(windSpeed)) км/ч"
+            data: "\(Int(windSpeed)) км/ч",
+            info: nil
         )
         let precipitationModel = DetailDataModel(
             icon: "cloud.snow.fill",
             title: "ОСАДКИ",
-            data: "\(model.daily[0].snow ?? 0) мм\nза сутки"
+            data: "\(model.daily[0].snow ?? 0) мм\nза сутки",
+            info: nil
         )
         let fillsLikeModel = DetailDataModel(
             icon: "thermometer",
@@ -70,12 +72,14 @@ struct DataModelFactory {
         let visabilityModel = DetailDataModel(
             icon: "eye.fill",
             title: "ВИДИМОСТЬ",
-            data: "\(visability / 1000) км"
+            data: "\(visability / 1000) км",
+            info: nil
         )
         let pressureModel = DetailDataModel(
             icon: "gauge",
             title: "ДАВЛЕНИЕ",
-            data: "\(pressure)\nгПа"
+            data: "\(pressure)\nгПа",
+            info: nil
         )
         
         dataModel.append(uvIndexModel)

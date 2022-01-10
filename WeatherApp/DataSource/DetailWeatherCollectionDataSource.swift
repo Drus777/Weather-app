@@ -26,9 +26,10 @@ final class DetailWeatherCollectionDataSource: NSObject, UICollectionViewDataSou
         
         guard
             let cellModels = cellModels,
-            let cellModel = cellModels[.detailWeatherCollectionCellModel]
+            let cellModel = cellModels[.detailWeatherCollectionCellModel] as? DetailWeatherCollectionCellModel
         else { return cell }
-        cell.fill(by: cellModel, index: indexPath.item)
+        
+        cell.fill(by: cellModel.dataModel[indexPath.item])
         return cell
     }
 }

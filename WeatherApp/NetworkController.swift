@@ -19,7 +19,7 @@ class NetworkController {
         
         let lat = "\(locationService.lat)"
         let lon = "\(locationService.lon)"
-        
+        print("lat = \(lat), lon = \(lon)!!!")
         let parameters = [
             URLQueryItem(name: "lat", value: lat),
             URLQueryItem(name: "lon", value: lon)

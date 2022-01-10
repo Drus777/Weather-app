@@ -44,6 +44,14 @@ final class DailyWeatherTableCell: UITableViewCell {
         return imageView
     }()
     
+    private var precipitationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.numberOfLines = .zero
+        label.textColor =  #colorLiteral(red: 0.442997992, green: 0.9458556771, blue: 0.9850631356, alpha: 1)
+        return label
+    }()
+    
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -61,6 +69,7 @@ final class DailyWeatherTableCell: UITableViewCell {
         configureCell()
         configureDayLabel()
         configureIconImageView()
+        configurePrecipitationLabel()
         configureMinTempLabel()
         configureMaxTempLabel()
     }
@@ -86,8 +95,17 @@ final class DailyWeatherTableCell: UITableViewCell {
             iconImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 100),
             iconImageView.heightAnchor.constraint(equalToConstant: 45),
             iconImageView.widthAnchor.constraint(equalToConstant: 45),
-            iconImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            iconImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            iconImageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor)
+        ])
+    }
+    
+    private func configurePrecipitationLabel() {
+        contentView.addSubview(precipitationLabel)
+        precipitationLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            precipitationLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: -8),
+            precipitationLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 105),
+            precipitationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     
@@ -120,7 +138,8 @@ extension DailyWeatherTableCell: Fillable {
             let day = cellModel.dailyWeather[index].dt,
             let icon = cellModel.dailyWeather[index].weather[0].icon,
             let minTemp = cellModel.dailyWeather[index].temp?.min,
-            let maxTemp = cellModel.dailyWeather[index].temp?.max
+            let maxTemp = cellModel.dailyWeather[index].temp?.max,
+            let precipitation = cellModel.dailyWeather[index].pop
         else { return }
         let date = Date(timeIntervalSince1970: TimeInterval(day))
         let dateformater = DateFormatter()
@@ -129,18 +148,32 @@ extension DailyWeatherTableCell: Fillable {
         let dateString = dateformater.string(from: date)
         
         if index == 0 {
+            layer.cornerRadius = 15
+            layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            
             dayLabel.text = "Сегодня"
             iconImageView.image = UIImage(named: icon)
             minTempLabel.text = "\(Int(minTemp))°"
             maxTempLabel.text = "\(Int(maxTemp))°"
-            layer.cornerRadius = 15
-            layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+            
+            if precipitation == 0 {
+                precipitationLabel.text = ""
+            } else {
+                precipitationLabel.text = "\(Int(precipitation * 100))%"
+            }
         } else {
             dayLabel.text = dateString
             iconImageView.image = UIImage(named: icon)
             minTempLabel.text = "\(Int(minTemp))°"
             maxTempLabel.text = "\(Int(maxTemp))°"
+            
+            if precipitation == 0 {
+                precipitationLabel.text = ""
+            } else {
+                precipitationLabel.text = "\(Int(precipitation * 100))%"
+            }
         }
+        
         if index == (cellModel.dailyWeather.count - 1) {
             layer.cornerRadius = 15
             layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]

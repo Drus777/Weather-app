@@ -37,7 +37,7 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var infoLabel: UILabel = {
+    private var infoLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .regular)
         label.numberOfLines = .zero
@@ -113,16 +113,15 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
 }
 
 extension DetailWeatherCollectionCell: Fillable {
-    func fill(by cellModel: CellModels, index: Int?) {
-        guard
-            let cellModel = cellModel as? DetailWeatherCollectionCellModel,
-            let index = index
-        else { return }
-        iconImageView.image = UIImage(systemName: cellModel.dataModel[index].icon)
-        titleLabel.text = cellModel.dataModel[index].title
-        dataLabel.text = cellModel.dataModel[index].data
-        if let info = cellModel.dataModel[index].info {
+    func fill(by cellModel: CellModels, index: Int? = nil) {
+        guard let cellModel = cellModel as? DetailDataModel else { return }
+        iconImageView.image = UIImage(systemName: cellModel.icon)
+        titleLabel.text = cellModel.title
+        dataLabel.text = cellModel.data
+        if let info = cellModel.info {
             infoLabel.text = info
+        } else {
+            infoLabel.text = ""
         }
     }
 }

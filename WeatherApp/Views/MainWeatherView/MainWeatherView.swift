@@ -22,13 +22,6 @@ final class MainWeatherView: UIView {
     
     // MARK: - UI
     
-    private var backgroundImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "sunnyBackground"))
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .clear
@@ -51,19 +44,7 @@ final class MainWeatherView: UIView {
     // MARK: - Configure views
     
     private func configureViews() {
-        configureBackgroundImageView()
         configureTableView()
-    }
-    
-    private func configureBackgroundImageView() {
-        addSubview(backgroundImageView)
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundImageView.leftAnchor.constraint(equalTo: leftAnchor),
-            backgroundImageView.rightAnchor.constraint(equalTo: rightAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
     }
     
     private func configureTableView() {
@@ -105,9 +86,9 @@ extension MainWeatherView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 2 {
-//            return 0
-//        }
+        //        if section == 2 {
+        //            return 0
+        //        }
         return 0
     }
     

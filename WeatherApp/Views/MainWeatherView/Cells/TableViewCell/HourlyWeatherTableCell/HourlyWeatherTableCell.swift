@@ -133,9 +133,10 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
             let sunriseHour = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
             let sunsetHour = dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
             
-            if timeHour == sunriseHour {
+            if indexPath.item == 0 {
+                textWidth = "\(Int(temp))".width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
+            } else if timeHour == sunriseHour {
                 let text = "Восход солнца"
-                print("time - \(timeHour), sunrise \(sunriseHour)")
                 textWidth = text.width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
             } else if timeHour == sunsetHour {
                 let text = "Заход солнца"
