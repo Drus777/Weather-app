@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol Updating where Self: UIView {
-    func fill(by model: BaseModel)
-    func reloadData()
-}
-
 final class MainWeatherView: UIView {
     
     private var dataSource: MainTableDataSource? {
@@ -23,7 +18,7 @@ final class MainWeatherView: UIView {
     // MARK: - UI
     
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .clear
         tableView.separatorColor = .systemGray4
         tableView.showsVerticalScrollIndicator = false
@@ -86,14 +81,19 @@ extension MainWeatherView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        //        if section == 2 {
-        //            return 0
-        //        }
+        if section == 2 {
+            return 30
+        }
         return 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView(frame: .zero)
+        if section == 2 {
+            let headerView = HeaderView(iconImage: UIImage(systemName: "calendar")!, title: "Прогноз погоды на 8 дней")
+            return headerView
+        } else {
+            return nil
+        }
     }
 }
 

@@ -41,7 +41,6 @@ class PageVC: UIPageViewController {
         return nil
     }
     
-    
     private func configureViews() {
         configureBottomView()
         configureLineView()

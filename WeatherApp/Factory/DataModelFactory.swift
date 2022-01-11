@@ -40,10 +40,10 @@ struct DataModelFactory {
             info: uvi <= 2 ? "Индекс останется низким до конца дня" : "Индекс останется высоким до конца дня"
         )
         let sunsetModel = DetailDataModel(
-            icon: Int(currentDate) < sunrise ? "sunset.fill" : "sunrise.fill",
-            title: Int(currentDate) < sunrise ? "ЗАХОД СОЛНЦА" : "ВОСХОД СОЛНЦА",
-            data: Int(currentDate) < sunrise ? "\(sunsetString)" : "\(sunriseString)",
-            info: Int(currentDate) < sunrise ? "Восход: \(sunriseString)" : "Закат: \(sunsetString)"
+            icon: Int(currentDate) < sunrise ? "sunrise.fill" : "sunset.fill",
+            title: Int(currentDate) < sunrise ? "ВОСХОД СОЛНЦА" : "ЗАХОД СОЛНЦА",
+            data: Int(currentDate) < sunrise ? "\(sunriseString)" : "\(sunsetString)",
+            info: Int(currentDate) < sunrise ? "Закат: \(sunsetString)" : "Восход: \(sunriseString)"
         )
         let windModel = DetailDataModel(
             icon: "wind",
@@ -54,7 +54,7 @@ struct DataModelFactory {
         let precipitationModel = DetailDataModel(
             icon: "cloud.snow.fill",
             title: "ОСАДКИ",
-            data: "\(model.daily[0].snow ?? 0) мм\nза сутки",
+            data: "\(Int(model.daily[0].snow ?? 0)) мм\nза сутки",
             info: nil
         )
         let fillsLikeModel = DetailDataModel(

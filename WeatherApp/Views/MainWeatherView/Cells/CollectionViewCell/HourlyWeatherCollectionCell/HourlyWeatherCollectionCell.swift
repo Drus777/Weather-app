@@ -102,7 +102,6 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
         contentView.addSubview(tempLabel)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-//            tempLabel.topAnchor.constraint(equalTo: precipitationLabel.bottomAnchor),
             tempLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             tempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])

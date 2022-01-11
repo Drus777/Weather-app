@@ -10,3 +10,5 @@ import UIKit
 protocol Fillable where Self: UIView {
     func fill(by cellModel: CellModels, index: Int?)
 }
+
+

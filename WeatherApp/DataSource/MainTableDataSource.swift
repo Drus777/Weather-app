@@ -75,7 +75,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailWeatherTableCell.identifier, for: indexPath) as? DetailWeatherTableCell
             else { return .init() }
-            cell.model = detailWeatherModel
+            cell.dataSource = detailWeatherModel?.detailWeatherCollectionDataSource
             return cell
         default:
             break

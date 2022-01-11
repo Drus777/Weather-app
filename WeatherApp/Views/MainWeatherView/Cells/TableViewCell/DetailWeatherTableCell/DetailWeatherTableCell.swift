@@ -11,9 +11,9 @@ class DetailWeatherTableCell: UITableViewCell {
 
     static let identifier = "DetailWeatherTableCell"
     
-    var model: DetailWeatherModel? {
+    var dataSource: DetailWeatherCollectionDataSource? {
         didSet {
-            collectionView.dataSource = model?.detailWeatherCollectionDataSource
+            collectionView.dataSource = dataSource
             collectionView.reloadData()
         }
     }

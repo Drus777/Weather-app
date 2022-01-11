@@ -40,8 +40,6 @@ final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
         }
     }
     
-    private var cityName: String?
-    
     var cellModelsDidChange: (() -> Void)?
     
     func loadData() {
@@ -50,7 +48,6 @@ final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
             switch result {
             case .success(let weather):
                 if let model = weather {
-
                     self.setCellModels(model)
                 }
             case .failure(let error):
@@ -74,8 +71,8 @@ final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
             cityName: cityName,
             currentTemp: currentTemp,
             description: description,
-            minTemp: maxTemp,
-            maxTemp: minTemp
+            minTemp: minTemp,
+            maxTemp: maxTemp
         )
         cellModels[.hourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
         cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(weatherModel: model)

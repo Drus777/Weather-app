@@ -9,7 +9,7 @@ import UIKit
 
 final class DailyWeatherTableCell: UITableViewCell {
     
-    static let identifier = "DailyWeatherTableCell"
+    static let identifier = "DailyWeatherTableCell" 
     
     // MARK: - UI
     
@@ -52,6 +52,12 @@ final class DailyWeatherTableCell: UITableViewCell {
         return label
     }()
     
+    private var lineView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .darkGray
+        return view
+    }()
+    
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,6 +78,7 @@ final class DailyWeatherTableCell: UITableViewCell {
         configurePrecipitationLabel()
         configureMinTempLabel()
         configureMaxTempLabel()
+        configureLineView()
     }
     
     private func configureCell() {
@@ -126,6 +133,17 @@ final class DailyWeatherTableCell: UITableViewCell {
             maxTempLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
+    
+    private func configureLineView() {
+        contentView.addSubview(lineView)
+        lineView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            lineView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            lineView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 210),
+            lineView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -60),
+            lineView.heightAnchor.constraint(equalToConstant: 2)
+        ])
+    }
 }
 
 // MARK: - Fillable
@@ -148,9 +166,6 @@ extension DailyWeatherTableCell: Fillable {
         let dateString = dateformater.string(from: date)
         
         if index == 0 {
-            layer.cornerRadius = 15
-            layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-            
             dayLabel.text = "Сегодня"
             iconImageView.image = UIImage(named: icon)
             minTempLabel.text = "\(Int(minTemp))°"
