@@ -18,9 +18,9 @@ final class MainWeatherView: UIView {
     // MARK: - UI
     
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .clear
-        tableView.separatorColor = .systemGray4
+        tableView.separatorColor = .systemGray3
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
@@ -45,13 +45,14 @@ final class MainWeatherView: UIView {
     private func configureTableView() {
         addSubview(tableView)
         tableView.delegate = self
+        tableView.sectionHeaderTopPadding = 10
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
         tableView.register(DailyWeatherTableCell.self, forCellReuseIdentifier: DailyWeatherTableCell.identifier)
         tableView.register(DetailWeatherTableCell.self, forCellReuseIdentifier: DetailWeatherTableCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
             tableView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
