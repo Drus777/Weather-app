@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SpriteKit
 
 final class MainWeatherView: UIView {
     
@@ -25,10 +26,18 @@ final class MainWeatherView: UIView {
         return tableView
     }()
     
+    private let skView: SKView = {
+        let skView = SKView()
+        skView.backgroundColor = .clear
+        return skView
+    }()
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureSkView()
+        initSkScene()
         configureViews()
     }
     
@@ -57,6 +66,25 @@ final class MainWeatherView: UIView {
             tableView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    func configureSkView() {
+        addSubview(skView)
+        skView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            skView.topAnchor.constraint(equalTo: topAnchor),
+            skView.leftAnchor.constraint(equalTo: leftAnchor),
+            skView.rightAnchor.constraint(equalTo: rightAnchor),
+            skView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    private func initSkScene() {
+        let particleScene = ParticleScene(size: CGSize(width: 1080, height: 1920))
+        particleScene.scaleMode = .aspectFill
+        particleScene.backgroundColor = .clear
+        
+        skView.presentScene(particleScene)
     }
 }
 
