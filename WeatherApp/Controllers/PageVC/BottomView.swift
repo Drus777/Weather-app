@@ -7,22 +7,24 @@
 
 import UIKit
 
-class BottomView: UIView {
+protocol BottomViewDelegate: AnyObject{
+    func didTapButton()
+}
+
+final class BottomView: UIView {
+    
+    weak var delegate: BottomViewDelegate?
 
     private var lineView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = .systemGray3
         return view
     }()
-
-    private var bottomView: UIView = {
-        let view = UIView(frame: .zero)
-        return view
-    }()
     
     private let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "list-icon"), for: .normal)
+        button.addTarget(self, action: #selector(didTapContinueButton), for: .touchUpInside)
         return button
     }()
     
@@ -62,5 +64,8 @@ class BottomView: UIView {
             searchButton.widthAnchor.constraint(equalToConstant: 18)
         ])
     }
-
+    
+    @objc private func didTapContinueButton() {
+        delegate?.didTapButton()
+    }
 }

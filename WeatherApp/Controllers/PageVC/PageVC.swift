@@ -19,6 +19,7 @@ final class PageVC: UIPageViewController {
         setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
         self.delegate = self
         self.dataSource = self
+        bottomView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -65,5 +66,11 @@ extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
+    }
+}
+
+extension PageVC: BottomViewDelegate {
+    func didTapButton() {
+        present(ViewControllersFactory.searchVC(), animated: true, completion: nil)
     }
 }
