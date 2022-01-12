@@ -21,7 +21,7 @@ final class MainWeatherView: UIView {
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .clear
-        tableView.separatorColor = .systemGray3
+        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
@@ -36,8 +36,8 @@ final class MainWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureSkView()
-        initSkScene()
+//        configureSkView()
+//        initSkScene()
         configureViews()
     }
     
@@ -54,7 +54,7 @@ final class MainWeatherView: UIView {
     private func configureTableView() {
         addSubview(tableView)
         tableView.delegate = self
-        tableView.sectionHeaderTopPadding = 10
+        tableView.sectionHeaderTopPadding = 15
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
         tableView.register(DailyWeatherTableCell.self, forCellReuseIdentifier: DailyWeatherTableCell.identifier)

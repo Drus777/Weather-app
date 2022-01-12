@@ -58,6 +58,12 @@ final class DailyWeatherTableCell: UITableViewCell {
         return view
     }()
     
+    private var separatorView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .systemGray4
+        return view
+    }()
+    
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -73,6 +79,7 @@ final class DailyWeatherTableCell: UITableViewCell {
     
     private func configureViews() {
         configureCell()
+        configureSeparatorView()
         configureDayLabel()
         configureIconImageView()
         configurePrecipitationLabel()
@@ -83,7 +90,18 @@ final class DailyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.9)
+        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.95)
+    }
+    
+    private func configureSeparatorView() {
+        contentView.addSubview(separatorView)
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            separatorView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.3)
+        ])
     }
     
     private func configureDayLabel() {

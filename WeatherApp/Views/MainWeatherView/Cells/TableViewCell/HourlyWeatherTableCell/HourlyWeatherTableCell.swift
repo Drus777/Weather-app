@@ -67,7 +67,7 @@ final class HourlyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.9)
+        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.95)
         layer.cornerRadius = 15
     }
     
@@ -85,9 +85,9 @@ final class HourlyWeatherTableCell: UITableViewCell {
         lineView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             lineView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10),
-            lineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
-            lineView.rightAnchor.constraint(equalTo: rightAnchor),
-            lineView.heightAnchor.constraint(equalToConstant: 0.5)
+            lineView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            lineView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            lineView.heightAnchor.constraint(equalToConstant: 0.3)
         ])
     }
     

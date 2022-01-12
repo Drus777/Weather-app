@@ -67,7 +67,7 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     }
     
     private func configureCell() {
-        contentView.backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.9)
+        contentView.backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.95)
         contentView.layer.cornerRadius = 15
     }
     

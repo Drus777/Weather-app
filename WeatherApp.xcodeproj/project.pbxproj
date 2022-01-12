@@ -204,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				785DB1D5277C6CA800DC6C68 /* MainWeatherView */,
+				78F15AC6278E073D00784463 /* New Group */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -331,6 +332,13 @@
 				783DDACF278318EA005D937B /* HourlyWeatherCollectionCellModel.swift */,
 			);
 			path = HourlyWeatherCollectionCell;
+			sourceTree = "<group>";
+		};
+		78F15AC6278E073D00784463 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		78FAA02827870436008B558A /* DetailWeatherTableCell */ = {
