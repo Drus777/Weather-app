@@ -7,9 +7,10 @@
 
 import Foundation
 
-protocol SearchTableModel: AnyObject {
-    var mainTableDataSource: MainTableDataSource { get }
-    var cellModelsDidChange: (() -> Void)? { get set }
-    
-    func loadData()
+protocol SearchTableModel: AnyObject, Models {
+    var searchTableDataSource: SearchTableDataSource { get }
+}
+
+final class SearchModel: SearchTableModel {
+    var searchTableDataSource = SearchTableDataSource()
 }

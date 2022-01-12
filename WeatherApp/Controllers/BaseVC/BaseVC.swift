@@ -6,13 +6,11 @@
 //
 
 import UIKit
-//import SpriteKit
 
 final class BaseVC: UIViewController {
     
     private let currentView: Updating?
-    private  var model: MainTableModel?
-    private let locationService = LocationService.shared
+    private var model: Models?
     
     override func loadView() {
         view = currentView
@@ -20,11 +18,13 @@ final class BaseVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        model?.loadData()
+        if let model = model as? MainTableModel {
+            model.loadData()
+        }
         bind()
     }
     
-    init(view: Updating, model: MainTableModel) {
+    init(view: Updating, model: Models) {
         self.currentView = view
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -37,9 +37,12 @@ final class BaseVC: UIViewController {
     private func bind() {
         if let model = model as? MainWeatherModel {
             model.cellModelsDidChange = { [weak self] in
-                self?.currentView?.fill(by: model)
+                self?.currentView?.fill(by: model.mainTableDataSource)
                 self?.currentView?.reloadData()
             }
+        }
+        if let model = model as? SearchModel {
+            self.currentView?.fill(by: model.searchTableDataSource)
         }
     }
 }

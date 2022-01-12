@@ -15,7 +15,7 @@ protocol HourlyWeatherModel: AnyObject {
     var hourlyWeatherCollectionDataSource: HourlyWeatherCollectionDataSource { get }
 }
 
-protocol MainTableModel: AnyObject {
+protocol MainTableModel: AnyObject, Models {
     var mainTableDataSource: MainTableDataSource { get }
     var cellModelsDidChange: (() -> Void)? { get set }
     
@@ -27,9 +27,9 @@ final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherM
     private let networkController = NetworkController()
     private let locationService = LocationService.shared
     
-    lazy var mainTableDataSource = MainTableDataSource(self, detailWeatherModel: self)
-    lazy var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
-    lazy var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
+    lazy var mainTableDataSource = MainTableDataSource(hourlyWeatherModel: self, detailWeatherModel: self)
+    var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
+    var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
     
     private var cellModels: [CellModelNames: CellModels] = [:] {
         didSet {

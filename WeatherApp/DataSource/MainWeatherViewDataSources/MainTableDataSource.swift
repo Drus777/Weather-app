@@ -14,7 +14,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
     private var hourlyWeatherModel: HourlyWeatherModel?
     private var detailWeatherModel: DetailWeatherModel?
     
-    init(_ hourlyWeatherModel: HourlyWeatherModel, detailWeatherModel: DetailWeatherModel) {
+    init(hourlyWeatherModel: HourlyWeatherModel, detailWeatherModel: DetailWeatherModel) {
         self.hourlyWeatherModel = hourlyWeatherModel
         self.detailWeatherModel = detailWeatherModel
     }

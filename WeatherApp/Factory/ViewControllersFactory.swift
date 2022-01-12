@@ -15,4 +15,11 @@ struct ViewControllersFactory {
         let baseVC = BaseVC(view: view, model: model)
         return baseVC
     }
+    
+    static func searchVC() -> UIViewController {
+        let model = SearchModel()
+        let view = SearchView()
+        let searchVC = BaseVC(view: view, model: model)
+        return searchVC
+    }
 }

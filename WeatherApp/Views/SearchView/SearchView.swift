@@ -8,13 +8,25 @@
 import UIKit
 
 final class SearchView: UIView {
-
+    
+    private var dataSource: SearchTableDataSource? {
+        didSet {
+            self.tableView.dataSource = dataSource
+        }
+    }
+    
     // MARK: - UI
+    
+    private var backgroundView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .black
+        return view
+    }()
     
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .black
-        tableView.separatorStyle = .none
+        tableView.backgroundColor = .white
+        tableView.separatorStyle = .singleLine
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
@@ -33,7 +45,19 @@ final class SearchView: UIView {
     // MARK: - Configure views
     
     private func configureViews() {
+        configureBackgroundView()
         configureTableView()
+    }
+    
+    private func configureBackgroundView() {
+        addSubview(backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.leftAnchor.constraint(equalTo: leftAnchor),
+            backgroundView.rightAnchor.constraint(equalTo: rightAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
     private func configureTableView() {
@@ -41,6 +65,7 @@ final class SearchView: UIView {
         tableView.delegate = self
 //        tableView.sectionHeaderTopPadding = 15
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CityTableCell.self, forCellReuseIdentifier: CityTableCell.identifier)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
@@ -52,4 +77,16 @@ final class SearchView: UIView {
 
 extension SearchView: UITableViewDelegate {
     
+}
+
+extension SearchView: Updating {
+    func fill(by dataSource: UITableViewDataSource) {
+        if let dataSource = dataSource as? SearchTableDataSource {
+            self.dataSource = dataSource
+        }
+    }
+    
+    func reloadData() {
+        self.tableView.reloadData()
+    }
 }

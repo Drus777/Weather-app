@@ -127,8 +127,10 @@ extension MainWeatherView: UITableViewDelegate {
 }
 
 extension MainWeatherView: Updating {
-    func fill(by model: MainWeatherModel) {
-        self.dataSource = model.mainTableDataSource
+    func fill(by dataSource: UITableViewDataSource) {
+        if let dataSource = dataSource as? MainTableDataSource {
+            self.dataSource = dataSource
+        }
     }
     
     func reloadData() {
