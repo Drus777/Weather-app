@@ -15,7 +15,7 @@ final class BaseVC: UIViewController {
     override func loadView() {
         view = currentView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let model = model as? MainTableModel {
@@ -43,6 +43,7 @@ final class BaseVC: UIViewController {
         }
         if let model = model as? SearchModel {
             self.currentView?.fill(by: model.searchTableDataSource)
+            self.currentView?.reloadData()
         }
     }
 }

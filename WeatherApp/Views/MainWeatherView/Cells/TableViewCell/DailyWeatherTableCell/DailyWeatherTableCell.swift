@@ -165,6 +165,7 @@ final class DailyWeatherTableCell: UITableViewCell {
 }
 
 // MARK: - Fillable
+
 extension DailyWeatherTableCell: Fillable {
     func fill(by cellModel: CellModels, index: Int?) {
         

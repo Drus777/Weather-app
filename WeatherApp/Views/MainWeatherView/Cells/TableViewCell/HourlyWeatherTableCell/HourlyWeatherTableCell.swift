@@ -16,7 +16,6 @@ final class HourlyWeatherTableCell: UITableViewCell {
     var dataSource: HourlyWeatherCollectionDataSource? {
         didSet {
             collectionView.dataSource = dataSource
-            collectionView.reloadData()
         }
     }
     

@@ -14,7 +14,6 @@ class DetailWeatherTableCell: UITableViewCell {
     var dataSource: DetailWeatherCollectionDataSource? {
         didSet {
             collectionView.dataSource = dataSource
-            collectionView.reloadData()
         }
     }
     

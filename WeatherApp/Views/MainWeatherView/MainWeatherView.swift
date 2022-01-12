@@ -36,8 +36,8 @@ final class MainWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        configureSkView()
-//        initSkScene()
+        configureSkView()
+        initSkScene()
         configureViews()
     }
     
