@@ -8,6 +8,6 @@
 import UIKit
 
 protocol Updating where Self: UIView {
-    func fill(by model: BaseModel)
+    func fill(by model: MainWeatherModel)
     func reloadData()
 }

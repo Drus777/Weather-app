@@ -10,7 +10,7 @@ import UIKit
 struct ViewControllersFactory {
 
     static func weatherVC() -> UIViewController {
-        let model = BaseModel()
+        let model = MainWeatherModel()
         let view = MainWeatherView()
         let baseVC = BaseVC(view: view, model: model)
         return baseVC

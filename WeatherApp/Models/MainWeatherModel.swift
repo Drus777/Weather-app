@@ -1,5 +1,5 @@
 //
-//  BaseModel.swift
+//  MainWeatherModel.swift
 //  WeatherApp
 //
 //  Created by Andrey on 29.12.21.
@@ -22,7 +22,7 @@ protocol MainTableModel: AnyObject {
     func loadData()
 }
 
-final class BaseModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
+final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
     
     private let networkController = NetworkController()
     private let locationService = LocationService.shared

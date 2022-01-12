@@ -25,13 +25,16 @@ struct DataModelFactory {
             let dewPoint = model.current.dewPoint
         else { return [] }
         
-        let sunsetDate = Date(timeIntervalSince1970: Double(sunset))
-        let sunriseDate = Date(timeIntervalSince1970: Double(sunrise))
+//        let sunsetDate = Date(timeIntervalSince1970: Double(sunset))
+//        let sunriseDate = Date(timeIntervalSince1970: Double(sunrise))
         let currentDate = Date().timeIntervalSince1970
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let sunsetString = dateFormatter.string(from: sunsetDate)
-        let sunriseString = dateFormatter.string(from: sunriseDate)
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "HH:mm"
+//        let sunsetString = dateFormatter.string(from: sunsetDate)
+//        let sunriseString = dateFormatter.string(from: sunriseDate)
+        
+        let sunsetString = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH:mm")
+        let sunriseString = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH:mm")
         
         let uvIndexModel = DetailDataModel(
             icon: "sun.min.fill",

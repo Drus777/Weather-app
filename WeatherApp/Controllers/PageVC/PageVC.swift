@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PageVC: UIPageViewController {
+final class PageVC: UIPageViewController {
     
     var controllers: [UIViewController] = [ViewControllersFactory.weatherVC(), ViewControllersFactory.weatherVC()]
     

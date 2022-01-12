@@ -112,13 +112,6 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
 
 extension HourlyWeatherCollectionCell: Fillable {
     
-    private func dateConvertion(unixTime: Double, dateFormat: String) -> String {
-        let time = Date(timeIntervalSince1970: unixTime)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from: time)
-    }
-    
     func fill(by cellModel: CellModels, index: Int?) {
         guard
             let cellModel = cellModel as? HourlyWeatherCollectionCellModel,
@@ -131,12 +124,12 @@ extension HourlyWeatherCollectionCell: Fillable {
             let sunset = cellModel.weatherModel.daily[0].sunset
         else { return }
         
-        let sunriseHourMinute = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH:mm")
-        let sunsetHourMinute = dateConvertion(unixTime: Double(sunset), dateFormat: "HH:mm")
+        let sunriseHourMinute = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH:mm")
+        let sunsetHourMinute = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH:mm")
         
-        let timeHour = dateConvertion(unixTime: Double(time), dateFormat: "HH")
-        let sunriseHour = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
-        let sunsetHour = dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
+        let timeHour = Date.dateConvertion(unixTime: Double(time), dateFormat: "HH")
+        let sunriseHour = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
+        let sunsetHour = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
         
         if index == 0 {
             timeLabel.text = "Сейчас"

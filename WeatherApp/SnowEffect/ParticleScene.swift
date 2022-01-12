@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class ParticleScene: SKScene {
+final class ParticleScene: SKScene {
     override func didMove(to view: SKView) {
         super.didMove(to: view)
         setupParticleEmitter()

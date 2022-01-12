@@ -129,9 +129,9 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
            let sunrise = cellModel?.weatherModel.daily[0].sunrise,
            let sunset = cellModel?.weatherModel.daily[0].sunset {
             
-            let timeHour = dateConvertion(unixTime: Double(time), dateFormat: "HH")
-            let sunriseHour = dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
-            let sunsetHour = dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
+            let timeHour = Date.dateConvertion(unixTime: Double(time), dateFormat: "HH")
+            let sunriseHour = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
+            let sunsetHour = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
             
             if indexPath.item == 0 {
                 textWidth = "\(Int(temp))".width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
@@ -147,13 +147,6 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
         }
         
         return .init(width: max(minWidth, textWidth), height: height)
-    }
-    
-    private func dateConvertion(unixTime: Double, dateFormat: String) -> String {
-        let time = Date(timeIntervalSince1970: unixTime)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from: time)
     }
 }
 

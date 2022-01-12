@@ -35,7 +35,7 @@ final class BaseVC: UIViewController {
     }
     
     private func bind() {
-        if let model = model as? BaseModel {
+        if let model = model as? MainWeatherModel {
             model.cellModelsDidChange = { [weak self] in
                 self?.currentView?.fill(by: model)
                 self?.currentView?.reloadData()

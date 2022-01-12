@@ -177,6 +177,7 @@ extension DailyWeatherTableCell: Fillable {
             let maxTemp = cellModel.dailyWeather[index].temp?.max,
             let precipitation = cellModel.dailyWeather[index].pop
         else { return }
+        
         let date = Date(timeIntervalSince1970: TimeInterval(day))
         let dateformater = DateFormatter()
         dateformater.dateFormat = "EE"
