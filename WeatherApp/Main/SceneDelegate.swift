@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         configureBackgroundImageView()
-//        window?.rootViewController = PageVC()
-        window?.rootViewController = ViewControllersFactory.searchVC()
+        window?.rootViewController = PageVC()
+//        window?.rootViewController = ViewControllersFactory.searchVC()
         window?.makeKeyAndVisible()
     }
     

@@ -34,6 +34,7 @@
 		7878A1C4278ECE17005F71AE /* CityTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7878A1C3278ECE17005F71AE /* CityTableCell.swift */; };
 		7878A1C6278ED006005F71AE /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7878A1C5278ED006005F71AE /* Date+Utils.swift */; };
 		7878A1C8278EDE16005F71AE /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7878A1C7278EDE16005F71AE /* Models.swift */; };
+		7878A1CB278EE7A5005F71AE /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7878A1CA278EE7A5005F71AE /* BottomView.swift */; };
 		78F15AC3278D781100784463 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15AC2278D781100784463 /* HeaderView.swift */; };
 		78F15AC5278D921400784463 /* Updating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15AC4278D921400784463 /* Updating.swift */; };
 		78FAA01327849CC5008B558A /* CellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FAA01227849CC5008B558A /* CellModels.swift */; };
@@ -84,6 +85,7 @@
 		7878A1C3278ECE17005F71AE /* CityTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableCell.swift; sourceTree = "<group>"; };
 		7878A1C5278ED006005F71AE /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		7878A1C7278EDE16005F71AE /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		7878A1CA278EE7A5005F71AE /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
 		78F15AC2278D781100784463 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		78F15AC4278D921400784463 /* Updating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updating.swift; sourceTree = "<group>"; };
 		78FAA01227849CC5008B558A /* CellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModels.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				78FAA03B278B451D008B558A /* PageVC.swift */,
+				7878A1CA278EE7A5005F71AE /* BottomView.swift */,
 			);
 			path = PageVC;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				7878A1C8278EDE16005F71AE /* Models.swift in Sources */,
 				785DB1BE277C62AE00DC6C68 /* SceneDelegate.swift in Sources */,
 				78FAA03C278B451D008B558A /* PageVC.swift in Sources */,
+				7878A1CB278EE7A5005F71AE /* BottomView.swift in Sources */,
 				785DB1DC277C914300DC6C68 /* CurrentWeatherTableCell.swift in Sources */,
 				78FAA0272785F767008B558A /* NetworkController.swift in Sources */,
 			);
