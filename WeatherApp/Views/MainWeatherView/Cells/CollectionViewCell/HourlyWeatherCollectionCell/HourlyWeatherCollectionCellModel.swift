@@ -12,8 +12,6 @@ struct HourlyWeatherDataModel: CellModels {
     var temp: String
     var icon: String
     var precipitation: Double
-    var sunrise: String
-    var sunset: String
 }
 
 final class HourlyWeatherCollectionCellModel: CellModels {
@@ -44,19 +42,19 @@ final class HourlyWeatherCollectionCellModel: CellModels {
                 
                 if index == 0 {
                     dataModel.append(
-                        .init(time: "Сейчас", temp: "\(Int(temp))°", icon: icon, precipitation: pop, sunrise: sunriseHourMinute, sunset: sunsetHourMinute)
+                        .init(time: "Сейчас", temp: "\(Int(temp))°", icon: icon, precipitation: pop)
                     )
                 } else if timeHour == sunriseHour {
                     dataModel.append(
-                        .init(time: sunriseHourMinute, temp: "Восход солнца", icon: "sunrise.fill", precipitation: 0, sunrise: sunriseHourMinute, sunset: sunsetHourMinute)
+                        .init(time: sunriseHourMinute, temp: "Восход солнца", icon: "sunrise.fill", precipitation: 0)
                     )
                 } else if timeHour == sunsetHour {
                     dataModel.append(
-                        .init(time: sunsetHourMinute, temp: "Заход солнца", icon: "sunset.fill", precipitation: 0, sunrise: sunriseHourMinute, sunset: sunsetHourMinute)
+                        .init(time: sunsetHourMinute, temp: "Заход солнца", icon: "sunset.fill", precipitation: 0)
                     )
                 } else {
                     dataModel.append(
-                        .init(time: timeHour, temp: "\(Int(temp))°", icon: icon, precipitation: pop, sunrise: sunriseHourMinute, sunset: sunsetHourMinute)
+                        .init(time: timeHour, temp: "\(Int(temp))°", icon: icon, precipitation: pop)
                     )
                 }
             }
