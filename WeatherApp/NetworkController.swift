@@ -6,31 +6,25 @@
 //
 
 import Foundation
-import CoreLocation
 
 class NetworkController {
     
-    private let locationService = LocationService.shared
-
-    private let host = "https://api.openweathermap.org/"
     private let apiService = APIService()
     
-    func fetchWeatherData(completion: @escaping (Result<WeatherModel?, Error>) -> Void) {
-        
-        let lat = "\(locationService.lat)"
-        let lon = "\(locationService.lon)"
+    func fetchWeatherData(lat: String, lon: String, units: Units, lang: Lang, completion: @escaping (Result<WeatherResponceModel?, Error>) -> Void) {
         
         let parameters = [
             URLQueryItem(name: "lat", value: lat),
-            URLQueryItem(name: "lon", value: lon)
+            URLQueryItem(name: "lon", value: lon),
+            URLQueryItem(name: "units", value: units.rawValue),
+            URLQueryItem(name: "lang", value: lang.rawValue)
         ]
         
         apiService.loadData(
-            host: host,
-            endpoint: Endpoint.weather.rawValue,
+            endpoint: Endpoints.weather.rawValue,
             method: .get,
             parameters: parameters,
-            model: WeatherModel.self
+            responceModel: WeatherResponceModel.self
         ) { result in
             completion(result)
         }

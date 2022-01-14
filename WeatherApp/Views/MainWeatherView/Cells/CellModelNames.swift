@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum CellModelNames: String {
-    case currentWeatherCellModel = "CurrentWeatherCellModel"
-    case hourlyWeatherTableCellModel = "HourlyWeatherTableCellModel"
-    case hourlyWeatherCollectionCellModel = "HourlyWeatherCollectionCellModel"
-    case dailyWeatherTableCellModel = "DailyWeatherTableCellModel"
-    case detailWeatherCollectionCellModel = "DetailWeatherCollectionCellModel"
+enum CellModelNames {
+    case currentWeatherCellModel
+    case hourlyWeatherTableCellModel
+    case hourlyWeatherCollectionCellModel
+    case dailyWeatherTableCellModel
+    case detailWeatherCollectionCellModel
 }

@@ -9,7 +9,8 @@ import UIKit
 
 final class DailyWeatherTableCell: UITableViewCell {
     
-    static let identifier = "DailyWeatherTableCell" 
+    static let identifier = "DailyWeatherTableCell"
+    static let height: CGFloat = 60
     
     // MARK: - UI
     
@@ -90,7 +91,7 @@ final class DailyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.95)
+        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
     }
     
     private func configureSeparatorView() {
@@ -130,7 +131,7 @@ final class DailyWeatherTableCell: UITableViewCell {
         NSLayoutConstraint.activate([
             precipitationLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: -8),
             precipitationLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 105),
-            precipitationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            precipitationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
         ])
     }
     
@@ -167,51 +168,18 @@ final class DailyWeatherTableCell: UITableViewCell {
 // MARK: - Fillable
 
 extension DailyWeatherTableCell: Fillable {
-    func fill(by cellModel: CellModels, index: Int?) {
+    func fill(by cellModel: CellModels) {
         
-        guard
-            let cellModel = cellModel as? DailyWeatherTableCellModel,
-            let index = index,
-            let day = cellModel.dailyWeather[index].dt,
-            let icon = cellModel.dailyWeather[index].weather[0].icon,
-            let minTemp = cellModel.dailyWeather[index].temp?.min,
-            let maxTemp = cellModel.dailyWeather[index].temp?.max,
-            let precipitation = cellModel.dailyWeather[index].pop
-        else { return }
+        guard let cellModel = cellModel as? DailyWeatherCellDataModel  else { return }
+        dayLabel.text = cellModel.day
+        iconImageView.image = UIImage(named: cellModel.icon)
+        minTempLabel.text = "\(Int(cellModel.minTemp))°"
+        maxTempLabel.text = "\(Int(cellModel.maxTemp))°"
         
-        let date = Date(timeIntervalSince1970: TimeInterval(day))
-        let dateformater = DateFormatter()
-        dateformater.dateFormat = "EE"
-        dateformater.locale = Locale(identifier: "Ru-ru")
-        let dateString = dateformater.string(from: date)
-        
-        if index == 0 {
-            dayLabel.text = "Сегодня"
-            iconImageView.image = UIImage(named: icon)
-            minTempLabel.text = "\(Int(minTemp))°"
-            maxTempLabel.text = "\(Int(maxTemp))°"
-            
-            if precipitation == 0 {
-                precipitationLabel.text = ""
-            } else {
-                precipitationLabel.text = "\(Int(precipitation * 100))%"
-            }
+        if cellModel.precipitation == 0 {
+            precipitationLabel.text = ""
         } else {
-            dayLabel.text = dateString
-            iconImageView.image = UIImage(named: icon)
-            minTempLabel.text = "\(Int(minTemp))°"
-            maxTempLabel.text = "\(Int(maxTemp))°"
-            
-            if precipitation == 0 {
-                precipitationLabel.text = ""
-            } else {
-                precipitationLabel.text = "\(Int(precipitation * 100))%"
-            }
-        }
-        
-        if index == (cellModel.dailyWeather.count - 1) {
-            layer.cornerRadius = 15
-            layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+            precipitationLabel.text = "\(Int(cellModel.precipitation * 100))%"
         }
     }
 }

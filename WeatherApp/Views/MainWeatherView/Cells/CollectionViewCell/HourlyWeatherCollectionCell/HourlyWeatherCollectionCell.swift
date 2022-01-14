@@ -67,7 +67,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
         configurePrecipitationLabel()
         configureTempLabel()
     }
-
+    
     private func configureTimeLabel() {
         contentView.addSubview(timeLabel)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
             timeLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
-
+    
     private func configureIconImage() {
         contentView.addSubview(iconImageView)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
             iconImageView.widthAnchor.constraint(equalToConstant: 45)
         ])
     }
-
+    
     private func configurePrecipitationLabel() {
         contentView.addSubview(precipitationLabel)
         precipitationLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +97,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
             precipitationLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
-
+    
     private func configureTempLabel() {
         contentView.addSubview(tempLabel)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -112,55 +112,22 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
 
 extension HourlyWeatherCollectionCell: Fillable {
     
-    func fill(by cellModel: CellModels, index: Int?) {
-        guard
-            let cellModel = cellModel as? HourlyWeatherCollectionCellModel,
-            let index = index,
-            let time =  cellModel.weatherModel.hourly[index].dt,
-            let temp = cellModel.weatherModel.hourly[index].temp,
-            let icon = cellModel.weatherModel.hourly[index].weather[0].icon,
-            let precipitation = cellModel.weatherModel.hourly[index].pop,
-            let sunrise = cellModel.weatherModel.daily[0].sunrise,
-            let sunset = cellModel.weatherModel.daily[0].sunset
-        else { return }
+    func fill(by cellModel: CellModels) {
+        guard let cellModel = cellModel as? HourlyWeatherDataModel else { return }
         
-        let sunriseHourMinute = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH:mm")
-        let sunsetHourMinute = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH:mm")
+        timeLabel.text = cellModel.time
+        tempLabel.text = cellModel.temp
         
-        let timeHour = Date.dateConvertion(unixTime: Double(time), dateFormat: "HH")
-        let sunriseHour = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
-        let sunsetHour = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
+        if let image = UIImage(named: cellModel.icon) {
+            iconImageView.image = image
+        } else {
+            iconImageView.image = UIImage(systemName: cellModel.icon)
+        }
         
-        if index == 0 {
-            timeLabel.text = "Сейчас"
-            tempLabel.text = "\(Int(temp))°"
-            iconImageView.image = UIImage(named: icon)
-            
-            if precipitation == 0 {
-                precipitationLabel.text = ""
-            } else {
-                precipitationLabel.text = "\(Int(precipitation * 100))%"
-            }
-        } else if timeHour == sunriseHour {
-            timeLabel.text = sunriseHourMinute
-            iconImageView.image = UIImage(systemName: "sunrise.fill")
-            tempLabel.text = "Восход солнца"
-            precipitationLabel.text = ""
-        } else if timeHour == sunsetHour {
-            timeLabel.text = sunsetHourMinute
-            iconImageView.image = UIImage(systemName: "sunset.fill")
-            tempLabel.text = "Заход солнца"
+        if cellModel.precipitation == 0 {
             precipitationLabel.text = ""
         } else {
-            timeLabel.text = timeHour
-            tempLabel.text = "\(Int(temp))°"
-            iconImageView.image = UIImage(named: icon)
-            
-            if precipitation == 0 {
-                precipitationLabel.text = ""
-            } else {
-                precipitationLabel.text = "\(Int(precipitation * 100))%"
-            }
+            precipitationLabel.text = "\(Int(cellModel.precipitation * 100))%"
         }
     }
 }

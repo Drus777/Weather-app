@@ -10,11 +10,8 @@ import SpriteKit
 
 final class MainWeatherView: UIView {
     
-    private var dataSource: MainTableDataSource? {
-        didSet {
-            self.tableView.dataSource = dataSource
-        }
-    }
+    private var dataSource: MainTableDataSource
+    private let headerView: HeaderView
     
     // MARK: - UI
     
@@ -34,10 +31,12 @@ final class MainWeatherView: UIView {
     
     // MARK: - Init
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureSkView()
-        initSkScene()
+    init(dataSource: MainTableDataSource, headerView: HeaderView) {
+        self.dataSource = dataSource
+        self.headerView = headerView
+        super.init(frame: .zero)
+//                        configureSkView()
+//                        initSkScene()
         configureViews()
     }
     
@@ -54,7 +53,8 @@ final class MainWeatherView: UIView {
     private func configureTableView() {
         addSubview(tableView)
         tableView.delegate = self
-        tableView.sectionHeaderTopPadding = 15
+        self.tableView.dataSource = dataSource
+        tableView.sectionHeaderTopPadding = 10
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
         tableView.register(DailyWeatherTableCell.self, forCellReuseIdentifier: DailyWeatherTableCell.identifier)
@@ -78,13 +78,15 @@ final class MainWeatherView: UIView {
             skView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
+    // делать асинхронно
     private func initSkScene() {
-        let particleScene = ParticleScene(size: CGSize(width: 1080, height: 1920))
+        let particleScene = ParticleScene(size: CGSize(width: 1080, height: 1920)) //  изменить размеры
         particleScene.scaleMode = .aspectFill
         particleScene.backgroundColor = .clear
         
-        skView.presentScene(particleScene)
+        DispatchQueue.main.async {
+            self.skView.presentScene(particleScene)
+        }
     }
 }
 
@@ -94,16 +96,13 @@ extension MainWeatherView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.section == 0 {
-            return UIScreen.main.bounds.height / 3
-        }
-        
         if indexPath.section == 1 {
-            return 160
+            return HourlyWeatherTableCell.height
         }
         
-        if indexPath.section == 3 {
-            return tableView.bounds.width * 2
+        if indexPath.section == 2 {
+            return DailyWeatherTableCell.height
+            // ячейка должна сама сказать каой у нее размер
         }
         
         return UITableView.automaticDimension
@@ -111,14 +110,13 @@ extension MainWeatherView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 2 {
-            return 30
-        }
+            return headerView.height
+        } // хедер сам должен сказать, какая у него высота
         return 0
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 2 {
-            let headerView = HeaderView(iconImage: UIImage(systemName: "calendar")!, title: "Прогноз погоды на 8 дней")
             return headerView
         } else {
             return nil
@@ -126,13 +124,7 @@ extension MainWeatherView: UITableViewDelegate {
     }
 }
 
-extension MainWeatherView: Updating {
-    func fill(by dataSource: UITableViewDataSource) {
-        if let dataSource = dataSource as? MainTableDataSource {
-            self.dataSource = dataSource
-        }
-    }
-    
+extension MainWeatherView: Reloadable {
     func reloadData() {
         self.tableView.reloadData()
     }

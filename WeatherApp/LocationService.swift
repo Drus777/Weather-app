@@ -10,15 +10,13 @@ import CoreLocation
 
 final class LocationService: NSObject {
     
-    static let shared = LocationService()
-    
     private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
     
     var lat: Double {
         return self.locationManager.location?.coordinate.latitude ?? 0
     }
-    
+
     var lon: Double {
         return self.locationManager.location?.coordinate.longitude ?? 0
     }
@@ -64,6 +62,8 @@ final class LocationService: NSObject {
 
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        stop()
+        if !locations.isEmpty {
+            stop()
+        }
     }
 }

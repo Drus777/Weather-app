@@ -14,6 +14,7 @@ class DetailWeatherTableCell: UITableViewCell {
     var dataSource: DetailWeatherCollectionDataSource? {
         didSet {
             collectionView.dataSource = dataSource
+            collectionView.reloadData()
         }
     }
     
@@ -48,7 +49,8 @@ class DetailWeatherTableCell: UITableViewCell {
             collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             collectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 40) * 2)
         ])
     }
 }

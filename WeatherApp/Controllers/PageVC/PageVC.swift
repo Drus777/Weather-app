@@ -10,22 +10,38 @@ import UIKit
 final class PageVC: UIPageViewController {
     
     private let bottomView = BottomView()
+    let factory = ViewControllersFactory()
     
-    private var controllers: [UIViewController] = [ViewControllersFactory.weatherVC(), ViewControllersFactory.weatherVC()]
+    private var controllers: [UIViewController] = []
 
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: navigationOrientation, options: nil)
+        addControllers()
         configureBottomView()
         setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
         self.delegate = self
         self.dataSource = self
         bottomView.delegate = self
+        
     }
     
     required init?(coder: NSCoder) {
         return nil
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    private func addControllers() {
+        controllers.append(factory.weatherVC())
+    }
+    
     private func configureBottomView() {
         self.view.addSubview(bottomView)
         bottomView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +87,6 @@ extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
 extension PageVC: BottomViewDelegate {
     func didTapButton() {
-        present(ViewControllersFactory.searchVC(), animated: true, completion: nil)
+        present(factory.searchVC(), animated: true, completion: nil)
     }
 }

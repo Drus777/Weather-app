@@ -1,5 +1,5 @@
 //
-//  CurrentWeatherModel.swift
+//  WeatherResponceModel.swift
 //  WeatherApp
 //
 //  Created by Andrey on 29.12.21.
@@ -61,7 +61,7 @@ struct DailyWeather: Codable {
     var sunset: Int?
 }
 
-struct WeatherModel: Codable {
+struct WeatherResponceModel: Codable {
     var timezone: String?
     var current: CurrentWeather
     var hourly: [HourlyWeather]

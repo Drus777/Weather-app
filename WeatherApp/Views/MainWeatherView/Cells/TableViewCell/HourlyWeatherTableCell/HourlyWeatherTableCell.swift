@@ -10,6 +10,7 @@ import UIKit
 final class HourlyWeatherTableCell: UITableViewCell {
     
     static let identifier = "HourlyWeatherTableCell"
+    static let height: CGFloat = 160
     
     var cellModel: HourlyWeatherCollectionCellModel?
     
@@ -66,7 +67,7 @@ final class HourlyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.95)
+        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
         layer.cornerRadius = 15
     }
     
@@ -123,26 +124,8 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
         var textWidth: CGFloat = 0
         let height = collectionView.bounds.height
         
-        if let time = cellModel?.weatherModel.hourly[indexPath.item].dt,
-           let temp = cellModel?.weatherModel.hourly[indexPath.item].temp,
-           let sunrise = cellModel?.weatherModel.daily[0].sunrise,
-           let sunset = cellModel?.weatherModel.daily[0].sunset {
-            
-            let timeHour = Date.dateConvertion(unixTime: Double(time), dateFormat: "HH")
-            let sunriseHour = Date.dateConvertion(unixTime: Double(sunrise), dateFormat: "HH")
-            let sunsetHour = Date.dateConvertion(unixTime: Double(sunset), dateFormat: "HH")
-            
-            if indexPath.item == 0 {
-                textWidth = "\(Int(temp))".width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
-            } else if timeHour == sunriseHour {
-                let text = "Восход солнца"
-                textWidth = text.width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
-            } else if timeHour == sunsetHour {
-                let text = "Заход солнца"
-                textWidth = text.width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
-            } else {
-                textWidth = "\(Int(temp))".width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
-            }
+        if let temp = cellModel?.dataModel[indexPath.item].temp {
+            textWidth = temp.width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
         }
         
         return .init(width: max(minWidth, textWidth), height: height)
@@ -150,8 +133,8 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
 }
 
 extension HourlyWeatherTableCell: Fillable {
-    func fill(by cellModel: CellModels, index: Int? = nil) {
+    func fill(by cellModel: CellModels) {
         guard let cellModel = cellModel as? HourlyWeatherTableCellModel else { return }
-        infoLabel.text = cellModel.info
+        infoLabel.text = cellModel.info.capitalizeFirstLetter()
     }
 }

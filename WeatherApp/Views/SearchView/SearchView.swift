@@ -9,11 +9,7 @@ import UIKit
 
 final class SearchView: UIView {
     
-    private var dataSource: SearchTableDataSource? {
-        didSet {
-            self.tableView.dataSource = dataSource
-        }
-    }
+    private var dataSource: SearchTableDataSource
     
     // MARK: - UI
     
@@ -33,8 +29,9 @@ final class SearchView: UIView {
     
     // MARK: - Init
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(dataSource: SearchTableDataSource) {
+        self.dataSource = dataSource
+        super.init(frame: .zero)
         configureViews()
     }
     
@@ -63,6 +60,7 @@ final class SearchView: UIView {
     private func configureTableView() {
         addSubview(tableView)
         tableView.delegate = self
+        tableView.dataSource = dataSource
 //        tableView.sectionHeaderTopPadding = 15
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(CityTableCell.self, forCellReuseIdentifier: CityTableCell.identifier)
@@ -79,13 +77,7 @@ extension SearchView: UITableViewDelegate {
     
 }
 
-extension SearchView: Updating {
-    func fill(by dataSource: UITableViewDataSource) {
-        if let dataSource = dataSource as? SearchTableDataSource {
-            self.dataSource = dataSource
-        }
-    }
-    
+extension SearchView: Reloadable {
     func reloadData() {
         self.tableView.reloadData()
     }

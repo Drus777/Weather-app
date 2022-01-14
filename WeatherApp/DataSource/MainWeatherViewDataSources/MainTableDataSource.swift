@@ -11,12 +11,12 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
     
     var cellModels: [CellModelNames : CellModels]?
     
-    private var hourlyWeatherModel: HourlyWeatherModel?
-    private var detailWeatherModel: DetailWeatherModel?
+    private var hourlyWeatherDataSource: HourlyWeatherCollectionDataSource
+    private var detailWeatherDataSource: DetailWeatherCollectionDataSource
     
-    init(hourlyWeatherModel: HourlyWeatherModel, detailWeatherModel: DetailWeatherModel) {
-        self.hourlyWeatherModel = hourlyWeatherModel
-        self.detailWeatherModel = detailWeatherModel
+    init(hourlyWeatherDataSource: HourlyWeatherCollectionDataSource, detailWeatherDataSource: DetailWeatherCollectionDataSource) {
+        self.hourlyWeatherDataSource = hourlyWeatherDataSource
+        self.detailWeatherDataSource = detailWeatherDataSource
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -30,7 +30,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
                 let cellModels = cellModels,
                 let cellModel = cellModels[.dailyWeatherTableCellModel] as? DailyWeatherTableCellModel
             else { return 0 }
-            return cellModel.dailyWeather.count
+            return cellModel.dataModel.count
         }
         return 1
     }
@@ -51,7 +51,6 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyWeatherTableCell.identifier, for: indexPath) as? HourlyWeatherTableCell
             else { return .init() }
-            cell.dataSource = hourlyWeatherModel?.hourlyWeatherCollectionDataSource
             
             guard
                 let cellModels = cellModels,
@@ -59,6 +58,7 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
                 let collectionCellModel = cellModels[.hourlyWeatherCollectionCellModel] as? HourlyWeatherCollectionCellModel
             else { return cell }
             cell.cellModel = collectionCellModel
+            cell.dataSource = hourlyWeatherDataSource
             cell.fill(by: tableCellModel)
             return cell
             
@@ -67,15 +67,21 @@ final class MainTableDataSource: NSObject, UITableViewDataSource {
             else { return .init() }
             guard
                 let cellModels = cellModels,
-                let cellModel = cellModels[.dailyWeatherTableCellModel]
+                let cellModel = cellModels[.dailyWeatherTableCellModel] as? DailyWeatherTableCellModel
             else { return cell }
-            cell.fill(by: cellModel, index: indexPath.row)
+            
+            if indexPath.row == (cellModel.dataModel.count - 1) {
+                cell.layer.cornerRadius = 15
+                cell.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+            }
+            
+            cell.fill(by: cellModel.dataModel[indexPath.row])
             return cell
             
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailWeatherTableCell.identifier, for: indexPath) as? DetailWeatherTableCell
             else { return .init() }
-            cell.dataSource = detailWeatherModel?.detailWeatherCollectionDataSource
+            cell.dataSource = detailWeatherDataSource
             return cell
         default:
             break

@@ -7,29 +7,20 @@
 
 import Foundation
 
-protocol DetailWeatherModel: AnyObject {
-    var detailWeatherCollectionDataSource: DetailWeatherCollectionDataSource { get }
-}
-
-protocol HourlyWeatherModel: AnyObject {
-    var hourlyWeatherCollectionDataSource: HourlyWeatherCollectionDataSource { get }
-}
-
 protocol MainTableModel: AnyObject, Models {
-    var mainTableDataSource: MainTableDataSource { get }
-    var cellModelsDidChange: (() -> Void)? { get set }
+    var cellModelsDidChange: (() -> Void)? { get  }
     
     func loadData()
 }
 
-final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherModel {
+final class MainWeatherModel: MainTableModel {
     
     private let networkController = NetworkController()
-    private let locationService = LocationService.shared
+    private let locationService = LocationService()
     
-    lazy var mainTableDataSource = MainTableDataSource(hourlyWeatherModel: self, detailWeatherModel: self)
-    var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
-    var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
+    lazy var mainTableDataSource = MainTableDataSource(hourlyWeatherDataSource: hourlyWeatherCollectionDataSource, detailWeatherDataSource: detailWeatherCollectionDataSource)
+    private var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
+    private var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
     
     private var cellModels: [CellModelNames: CellModels] = [:] {
         didSet {
@@ -43,7 +34,8 @@ final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherM
     var cellModelsDidChange: (() -> Void)?
     
     func loadData() {
-        networkController.fetchWeatherData { [weak self] result in
+        
+        networkController.fetchWeatherData(lat: "\(locationService.lat)", lon: "\(locationService.lon)", units: .metric, lang: .russian) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let weather):
@@ -56,7 +48,7 @@ final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherM
         }
     }
     
-    private func setCellModels(_ model: WeatherModel) {
+    private func setCellModels(_ model: WeatherResponceModel) {
         
         guard
             let cityName = model.timezone,
@@ -75,11 +67,9 @@ final class MainWeatherModel: MainTableModel, HourlyWeatherModel, DetailWeatherM
             maxTemp: maxTemp
         )
         cellModels[.hourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
-        cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(weatherModel: model)
-        cellModels[.dailyWeatherTableCellModel] = DailyWeatherTableCellModel(dailyWeather: model.daily)
-        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel(
-            dataModel: DataModelFactory.detailWeatherDataModel(model)
-        )
+        cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(by: model)
+        cellModels[.dailyWeatherTableCellModel] = DailyWeatherTableCellModel(by: model.daily)
+        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel(model: model)
     }
 }
 

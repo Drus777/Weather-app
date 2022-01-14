@@ -8,8 +8,10 @@
 import UIKit
 
 class HeaderView: UIView {
-
-    private var iconImageView: UIImageView = {
+    
+    let height: CGFloat = 30
+    
+    var iconImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -17,7 +19,7 @@ class HeaderView: UIView {
         return imageView
     }()
     
-    private var titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.numberOfLines = .zero
@@ -25,21 +27,25 @@ class HeaderView: UIView {
         return label
     }()
     
-    init(iconImage: UIImage, title: String) {
+    init(by model: HeaderModel) {
         super.init(frame: .zero)
-        configureViews(iconImage: iconImage, title: title)
+        configureViews(iconImage: model.icon, title: model.title)
     }
     
     required init?(coder: NSCoder) {
         return nil
     }
     
-    private func configureViews(iconImage: UIImage, title: String) {
+    private func configureViews(iconImage: String, title: String) {
+        configureView()
         configureIconImageView()
         configureTitleLabel()
-        iconImageView.image = iconImage
+        iconImageView.image = UIImage(systemName: iconImage)
         titleLabel.text = title
-        
+    }
+    
+    private func configureView() {
+        heightAnchor.constraint(equalToConstant: height).isActive = true
         backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1)
         layer.cornerRadius = 15
         layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -50,10 +56,9 @@ class HeaderView: UIView {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             iconImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-            iconImageView.topAnchor.constraint(equalTo: topAnchor),
-            iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             iconImageView.heightAnchor.constraint(equalToConstant: 20),
-            iconImageView.widthAnchor.constraint(equalToConstant: 20)
+            iconImageView.widthAnchor.constraint(equalToConstant: 20),
+            iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

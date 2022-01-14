@@ -7,11 +7,7 @@
 
 import Foundation
 
-final class HourlyWeatherTableCellModel: CellModels {
+struct HourlyWeatherTableCellModel: CellModels {
     
     var info: String
-    
-    init(info: String) {
-        self.info = info
-    }
 }

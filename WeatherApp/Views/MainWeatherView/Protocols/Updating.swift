@@ -7,7 +7,6 @@
 
 import UIKit
 
-protocol Updating where Self: UIView {
-    func fill(by dataSource: UITableViewDataSource)
+protocol Reloadable where Self: UIView {
     func reloadData()
 }
