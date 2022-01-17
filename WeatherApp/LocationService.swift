@@ -10,6 +10,8 @@ import CoreLocation
 
 final class LocationService: NSObject {
     
+//   static let shared = LocationService()
+    
     private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
     

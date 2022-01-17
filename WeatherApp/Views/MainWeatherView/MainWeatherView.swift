@@ -95,16 +95,7 @@ final class MainWeatherView: UIView {
 extension MainWeatherView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.section == 1 {
-            return HourlyWeatherTableCell.height
-        }
-        
-        if indexPath.section == 2 {
-            return DailyWeatherTableCell.height
-            // ячейка должна сама сказать каой у нее размер
-        }
-        
+    
         return UITableView.automaticDimension
     }
     

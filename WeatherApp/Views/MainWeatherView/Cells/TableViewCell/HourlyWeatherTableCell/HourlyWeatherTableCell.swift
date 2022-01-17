@@ -10,7 +10,6 @@ import UIKit
 final class HourlyWeatherTableCell: UITableViewCell {
     
     static let identifier = "HourlyWeatherTableCell"
-    static let height: CGFloat = 160
     
     var cellModel: HourlyWeatherCollectionCellModel?
     
@@ -69,6 +68,7 @@ final class HourlyWeatherTableCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
         layer.cornerRadius = 15
+        contentView.heightAnchor.constraint(equalToConstant: 160).isActive = true
     }
     
     private func configureIntoLabel() {

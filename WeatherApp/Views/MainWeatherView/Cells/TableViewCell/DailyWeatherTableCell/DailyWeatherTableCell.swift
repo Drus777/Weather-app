@@ -10,7 +10,6 @@ import UIKit
 final class DailyWeatherTableCell: UITableViewCell {
     
     static let identifier = "DailyWeatherTableCell"
-    static let height: CGFloat = 60
     
     // MARK: - UI
     
@@ -92,6 +91,7 @@ final class DailyWeatherTableCell: UITableViewCell {
     private func configureCell() {
         selectionStyle = .none
         backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
+        contentView.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     private func configureSeparatorView() {

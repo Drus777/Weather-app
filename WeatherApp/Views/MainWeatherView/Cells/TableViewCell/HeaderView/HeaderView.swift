@@ -67,6 +67,7 @@ class HeaderView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 8),
+            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 10),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
