@@ -9,8 +9,8 @@ import UIKit
 
 final class BaseVC: UIViewController {
     
-    private let currentView: Reloadable?
-    private var model: Models?
+    private let currentView: FillableView?
+    private var model: Model?
     
     override func loadView() {
         view = currentView
@@ -18,13 +18,13 @@ final class BaseVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let model = model as? MainTableModel {
+        if let model = model as? UpdatableModel {
             model.loadData()
         }
         bind()
     }
     
-    init(view: Reloadable, model: Models) {
+    init(view: FillableView, model: Model) {
         self.currentView = view
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -36,12 +36,9 @@ final class BaseVC: UIViewController {
     
     private func bind() {
         if let model = model as? MainWeatherModel {
-            model.cellModelsDidChange = { [weak self] in
-                self?.currentView?.reloadData()
+            model.weatherTableCellModelsDidChange = { [weak self] in
+                self?.currentView?.fill(by: model)
             }
-        }
-        if let model = model as? SearchModel {
-            self.currentView?.reloadData()
         }
     }
 }

@@ -10,17 +10,17 @@ import UIKit
 struct ViewControllersFactory {
     
     func weatherVC() -> UIViewController {
-        let model = MainWeatherModel()
+        let model: UpdatableModel = MainWeatherModel()
         let headerModel = HeaderModel(icon: "calendar", title: "Прогноз погоды на 8 дней")
         let headerView = HeaderView(by: headerModel)
-        let view = MainWeatherView(dataSource: model.mainTableDataSource, headerView: headerView)
+        let view = MainWeatherView(headerView: headerView)
         let baseVC = BaseVC(view: view, model: model)
         return baseVC
     }
     
     func searchVC() -> UIViewController {
         let model = SearchModel()
-        let view = SearchView(dataSource: model.searchTableDataSource)
+        let view = SearchView()
         let searchVC = BaseVC(view: view, model: model)
         return searchVC
     }

@@ -67,7 +67,7 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     }
     
     private func configureCell() {
-        contentView.backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
+        contentView.backgroundColor = .init(rgb: 0x6781B5).withAlphaComponent(0.85)
         contentView.layer.cornerRadius = 15
     }
     
@@ -112,8 +112,8 @@ class DetailWeatherCollectionCell: UICollectionViewCell {
     }
 }
 
-extension DetailWeatherCollectionCell: Fillable {
-    func fill(by cellModel: CellModels) {
+extension DetailWeatherCollectionCell: FillableCell {
+    func fill(by cellModel: CellModel) {
         guard let cellModel = cellModel as? DetailCellDataModel else { return }
         iconImageView.image = UIImage(systemName: cellModel.icon)
         titleLabel.text = cellModel.title

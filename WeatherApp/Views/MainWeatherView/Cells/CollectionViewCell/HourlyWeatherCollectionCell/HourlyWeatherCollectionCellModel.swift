@@ -7,22 +7,31 @@
 
 import Foundation
 
-struct HourlyWeatherDataModel: CellModels {
+final class HourlyWeatherDataModel: CellModel {
     var time: String
     var temp: String
     var icon: String
     var precipitation: Double
+    
+    init(time: String, temp: String, icon: String, precipitation: Double) {
+        self.time = time
+        self.temp = temp
+        self.icon = icon
+        self.precipitation = precipitation
+        super.init(cellIdentifier: HourlyWeatherCollectionCell.identifier)
+    }
 }
 
-final class HourlyWeatherCollectionCellModel: CellModels {
+final class HourlyWeatherCollectionCellModel: CellModel {
     
     var dataModel: [HourlyWeatherDataModel] = []
     
-    init(by model: WeatherResponceModel) {
+    init(by model: WeatherResponseModel) {
+        super.init(cellIdentifier: HourlyWeatherCollectionCell.identifier)
         fillDataModel(by: model)
     }
     
-    private func fillDataModel(by model: WeatherResponceModel) {
+    private func fillDataModel(by model: WeatherResponseModel) {
         
         for (index, element) in model.hourly.enumerated() {
             

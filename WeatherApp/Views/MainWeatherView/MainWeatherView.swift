@@ -10,7 +10,13 @@ import SpriteKit
 
 final class MainWeatherView: UIView {
     
-    private var dataSource: MainTableDataSource
+    private var dataSource: WeatherTableDataSource? {
+        didSet {
+            tableView.dataSource = dataSource
+            tableView.reloadData()
+        }
+    }
+    
     private let headerView: HeaderView
     
     // MARK: - UI
@@ -31,8 +37,7 @@ final class MainWeatherView: UIView {
     
     // MARK: - Init
     
-    init(dataSource: MainTableDataSource, headerView: HeaderView) {
-        self.dataSource = dataSource
+    init(headerView: HeaderView) {
         self.headerView = headerView
         super.init(frame: .zero)
 //                        configureSkView()
@@ -53,7 +58,7 @@ final class MainWeatherView: UIView {
     private func configureTableView() {
         addSubview(tableView)
         tableView.delegate = self
-        self.tableView.dataSource = dataSource
+        
         tableView.sectionHeaderTopPadding = 10
         tableView.register(CurrentWeatherTableCell.self, forCellReuseIdentifier: CurrentWeatherTableCell.identifier)
         tableView.register(HourlyWeatherTableCell.self, forCellReuseIdentifier: HourlyWeatherTableCell.identifier)
@@ -115,8 +120,9 @@ extension MainWeatherView: UITableViewDelegate {
     }
 }
 
-extension MainWeatherView: Reloadable {
-    func reloadData() {
-        self.tableView.reloadData()
+extension MainWeatherView: FillableView {
+    func fill(by model: Model) {
+        guard let model = model as? MainWeatherModel else { return }
+        self.dataSource = model.weatherTableDataSource
     }
 }

@@ -25,7 +25,7 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.numberOfLines = .zero
-        label.textColor =  #colorLiteral(red: 0.442997992, green: 0.9458556771, blue: 0.9850631356, alpha: 1)
+        label.textColor = .init(rgb: 0x71F1FB)
         return label
     }()
     
@@ -108,9 +108,9 @@ final class HourlyWeatherCollectionCell: UICollectionViewCell {
 
 // MARK: - Fillable
 
-extension HourlyWeatherCollectionCell: Fillable {
+extension HourlyWeatherCollectionCell: FillableCell {
     
-    func fill(by cellModel: CellModels) {
+    func fill(by cellModel: CellModel) {
         guard let cellModel = cellModel as? HourlyWeatherDataModel else { return }
         
         timeLabel.text = cellModel.time

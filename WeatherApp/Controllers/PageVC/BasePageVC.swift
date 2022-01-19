@@ -1,5 +1,5 @@
 //
-//  PageVC.swift
+//  BasePageVC.swift
 //  WeatherApp
 //
 //  Created by Andrey on 9.01.22.
@@ -7,39 +7,30 @@
 
 import UIKit
 
-final class PageVC: UIPageViewController {
+final class BasePageVC: UIPageViewController {
     
     private let bottomView = BottomView()
-    let factory = ViewControllersFactory()
     
-    private var controllers: [UIViewController] = []
-
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: navigationOrientation, options: nil)
-        addControllers()
         configureBottomView()
-        setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
+        setViewControllers([ViewControllersFactory().weatherVC()], direction: .forward, animated: true, completion: nil)
         self.delegate = self
         self.dataSource = self
         bottomView.delegate = self
-        
     }
     
     required init?(coder: NSCoder) {
         return nil
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    private func addControllers() {
-        controllers.append(factory.weatherVC())
     }
     
     private func configureBottomView() {
@@ -52,32 +43,38 @@ final class PageVC: UIPageViewController {
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    private func presentSearchVC() {
+        present(ViewControllersFactory().searchVC(), animated: true, completion: nil)
+    }
 }
 
-extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+extension BasePageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseVC else { return nil }
-        if let index = controllers.firstIndex(of: viewController) {
-            if index > 0 {
-                return controllers[index - 1]
-            }
+        guard let viewController = viewController as? BaseVC,
+              let controllers = viewControllers,
+              let index = controllers.firstIndex(of: viewController)
+        else { return nil }
+        if index > 0 {
+            return controllers[index - 1]
         }
-         return nil
+        return nil
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseVC else { return nil }
-        if let index = controllers.firstIndex(of: viewController) {
-            if index < controllers.count - 1 {
-                return controllers[index + 1]
-            }
+        guard let viewController = viewController as? BaseVC,
+              let controllers = viewControllers,
+              let index = controllers.firstIndex(of: viewController)
+        else { return nil }
+        if index < controllers.count - 1 {
+            return controllers[index + 1]
         }
         return nil
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return controllers.count
+        return viewControllers?.count ?? 0
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
@@ -85,8 +82,8 @@ extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     }
 }
 
-extension PageVC: BottomViewDelegate {
+extension BasePageVC: BottomViewDelegate {
     func didTapButton() {
-        present(factory.searchVC(), animated: true, completion: nil)
+        presentSearchVC()
     }
 }

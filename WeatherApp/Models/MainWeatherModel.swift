@@ -7,69 +7,78 @@
 
 import Foundation
 
-protocol MainTableModel: AnyObject, Models {
-    var cellModelsDidChange: (() -> Void)? { get  }
+protocol UpdatableModel: AnyObject, Model {
+    var weatherTableCellModelsDidChange: (() -> Void)? { get set }
     
     func loadData()
 }
 
-final class MainWeatherModel: MainTableModel {
-    
+final class MainWeatherModel: UpdatableModel {
     private let networkController = NetworkController()
-    private let locationService = LocationService()
     
-    lazy var mainTableDataSource = MainTableDataSource(hourlyWeatherDataSource: hourlyWeatherCollectionDataSource, detailWeatherDataSource: detailWeatherCollectionDataSource)
-    private var hourlyWeatherCollectionDataSource = HourlyWeatherCollectionDataSource()
-    private var detailWeatherCollectionDataSource = DetailWeatherCollectionDataSource()
+    var weatherTableDataSource = WeatherTableDataSource()
+    var hourlyWeatherCollectionDataSource = WeatherCollectionDataSource()
+    var detailWeatherCollectionDataSource = WeatherCollectionDataSource()
     
-    private var cellModels: [CellModelNames: CellModels] = [:] {
+    private var weatherTableCellModels: [CellModel] = [] {
         didSet {
-            mainTableDataSource.cellModels = cellModels
-            hourlyWeatherCollectionDataSource.cellModels = cellModels
-            detailWeatherCollectionDataSource.cellModels = cellModels
-            cellModelsDidChange?()
+            weatherTableDataSource.cellModels = weatherTableCellModels
+            weatherTableCellModelsDidChange?()
         }
     }
     
-    var cellModelsDidChange: (() -> Void)?
+    private var hourlyWeatherCollectionCellModels: [CellModel] = [] {
+        didSet {
+            hourlyWeatherCollectionDataSource.cellModels = hourlyWeatherCollectionCellModels
+        }
+    }
+    
+    private var detailWeatherCollectionCellModels: [CellModel] = [] {
+        didSet {
+            detailWeatherCollectionDataSource.cellModels = detailWeatherCollectionCellModels
+        }
+    }
+    
+    var weatherTableCellModelsDidChange: (() -> Void)?
     
     func loadData() {
-        
-        networkController.fetchWeatherData(lat: "\(locationService.lat)", lon: "\(locationService.lon)", units: .metric, lang: .russian) { [weak self] result in
+        //проверять текущую локализацию и ставить ее дефолтной(как хост)
+        networkController.fetchWeatherData(lat: "\(LocationService.shared.coordinate?.latitude ?? 0)", lon: "\(LocationService.shared.coordinate?.longitude ?? 0)", units: .metric, lang: .ru, apiKey: .mainKey) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let weather):
-                if let model = weather {
-                    self.setCellModels(model)
-                }
+            case .success(let responseModel):
+                self.setCellModels(responseModel)
             case .failure(let error):
                 print("\(#function) error handled: \(error.localizedDescription)")
             }
         }
     }
     
-    private func setCellModels(_ model: WeatherResponceModel) {
+    private func setCellModels(_ model: WeatherResponseModel?) {
         
-        guard
-            let cityName = model.timezone,
-            let currentTemp = model.current.temp,
-            let description = model.current.weather.first?.description,
-            let dailyTemp = model.daily[0].temp,
-            let maxTemp = dailyTemp.max,
-            let minTemp = dailyTemp.min
+        guard let model = model,
+              let cityName = model.timezone,
+              let currentTemp = model.current.temp,
+              let description = model.current.weather.first?.description,
+              let dailyTemp = model.daily[0].temp,
+              let maxTemp = dailyTemp.max,
+              let minTemp = dailyTemp.min
         else { return }
         
-        cellModels[.currentWeatherCellModel] = CurrentWeatherCellModel(
-            cityName: cityName,
-            currentTemp: currentTemp,
-            description: description,
-            minTemp: minTemp,
-            maxTemp: maxTemp
+        weatherTableCellModels.append(
+            CurrentWeatherCellModel(
+                cityName: cityName,
+                currentTemp: currentTemp,
+                description: description,
+                minTemp: minTemp,
+                maxTemp: maxTemp
+            )
         )
-        cellModels[.hourlyWeatherTableCellModel] = HourlyWeatherTableCellModel(info: description)
-        cellModels[.hourlyWeatherCollectionCellModel] = HourlyWeatherCollectionCellModel(by: model)
-        cellModels[.dailyWeatherTableCellModel] = DailyWeatherTableCellModel(by: model.daily)
-        cellModels[.detailWeatherCollectionCellModel] = DetailWeatherCollectionCellModel(model: model)
+        hourlyWeatherCollectionCellModels = HourlyWeatherCollectionCellModel(by: model).dataModel
+        weatherTableCellModels.append(HourlyWeatherTableCellModel(info: description, dataSource: hourlyWeatherCollectionDataSource, collectionCellModel: hourlyWeatherCollectionCellModels))
+        weatherTableCellModels.append(DailyWeatherTableCellModel(by: model.daily))
+        weatherTableCellModels.append(DetailWeatherTableCellModel(dataSource: detailWeatherCollectionDataSource))
+        detailWeatherCollectionCellModels = DetailWeatherCollectionCellModel(by: model).dataModel
     }
 }
 

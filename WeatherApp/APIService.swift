@@ -7,18 +7,9 @@
 
 import Foundation
 
-class APIService {
+final class APIService {
     
     private let dataSession: URLSession
-    
-    private let host = "https://api.openweathermap.org/"
-    private let apiKey = "3d643e7a730a87feb1f52a47323647d9"
-    
-    private var generalParameters: [URLQueryItem] {
-        return [
-            URLQueryItem(name: "appid", value: apiKey)
-        ]
-    }
     
     init() {
         dataSession = URLSession(configuration: URLSessionConfiguration.default)
@@ -29,12 +20,13 @@ class APIService {
 
 extension APIService {
     
-    func loadData<T: Codable>(endpoint: String, method: HTTPMethod, parameters: [URLQueryItem], body: Data? = nil, responceModel: T.Type, _ completion: @escaping (Result<T?, Error>) -> Void) {
-        guard let url = url(for: host, endpoint: endpoint, parameters: parameters) else { return }
+    func loadData<T: Codable>(host: String? = nil, endpoint: String, method: HTTPMethod, parameters: [URLQueryItem], apiKey: String? = nil, body: Data? = nil, responseModel: T.Type, _ completion: @escaping (Result<T?, Error>) -> Void) {
+        
+        guard let url = url(for: host ?? Hosts.openweathermap.rawValue, endpoint: endpoint, apiKey: apiKey ?? ApiKeys.mainKey.rawValue, parameters: parameters) else { return }
         let request = request(url: url, method: method, body: body)
         dataSession.dataTask(with: request) { (data, response, error) in
             if let data = data {
-                let result = try? JSONDecoder().decode(responceModel.self, from: data)
+                let result = try? JSONDecoder().decode(responseModel.self, from: data)
                 DispatchQueue.main.async {
                     completion(.success(result))
                 }
@@ -51,12 +43,14 @@ extension APIService {
 
 private extension APIService {
     
-    func url(for host: String, endpoint: String, parameters: [URLQueryItem]) -> URL? {
+    func url(for host: String, endpoint: String, apiKey: String, parameters: [URLQueryItem]) -> URL? {
         
-        guard
-            let path = [host, endpoint].joined().encodeUrl(),
-            var components = URLComponents(string: path)
+        guard let path = [host, endpoint].joined().encodeUrl(),
+              var components = URLComponents(string: path)
         else { return nil }
+        
+        let generalParameters: [URLQueryItem] = [URLQueryItem(name: "appid", value: apiKey)]
+        
         let parameters = parameters + generalParameters
         if !parameters.isEmpty {
             components.queryItems = parameters

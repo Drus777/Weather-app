@@ -8,14 +8,19 @@
 import Foundation
 
 enum Lang: String {
-    case russian = "ru"
-    case english = "en"
-    case ukrainian = "ua"
-    case japanese = "ja"
+    case ru
+    case en
+    case ua
+    case ja
 }
 
 enum Units: String {
-    case standard = "standard"
-    case metric = "metric"
-    case imperial = "imperial"
+    case standard
+    case metric
+    case imperial
 }
+
+enum ApiKeys: String {
+    case mainKey = "3d643e7a730a87feb1f52a47323647d9"
+}
+

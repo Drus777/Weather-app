@@ -46,7 +46,7 @@ class HeaderView: UIView {
     
     private func configureView() {
         heightAnchor.constraint(equalToConstant: height).isActive = true
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1)
+        backgroundColor = .init(rgb: 0x6781B5).withAlphaComponent(0.85)
         layer.cornerRadius = 15
         layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }

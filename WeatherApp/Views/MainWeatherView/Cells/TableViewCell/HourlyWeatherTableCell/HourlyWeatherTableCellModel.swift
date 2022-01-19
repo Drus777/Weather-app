@@ -7,7 +7,16 @@
 
 import Foundation
 
-struct HourlyWeatherTableCellModel: CellModels {
+final class HourlyWeatherTableCellModel: CellModel {
     
     var info: String
+    var dataSource: WeatherCollectionDataSource
+    var collectionCellModel: [CellModel]
+    
+    init(info: String, dataSource: WeatherCollectionDataSource, collectionCellModel: [CellModel]) {
+        self.info = info
+        self.dataSource = dataSource
+        self.collectionCellModel = collectionCellModel
+        super.init(cellIdentifier: HourlyWeatherTableCell.identifier)
+    }
 }

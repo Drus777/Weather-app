@@ -11,11 +11,12 @@ final class HourlyWeatherTableCell: UITableViewCell {
     
     static let identifier = "HourlyWeatherTableCell"
     
-    var cellModel: HourlyWeatherCollectionCellModel?
+    var cellModel: [CellModel] = []
     
-    var dataSource: HourlyWeatherCollectionDataSource? {
+    var dataSource: WeatherCollectionDataSource? {
         didSet {
             collectionView.dataSource = dataSource
+            collectionView.reloadData()
         }
     }
     
@@ -66,7 +67,7 @@ final class HourlyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
+        backgroundColor = .init(rgb: 0x6781B5).withAlphaComponent(0.85)
         layer.cornerRadius = 15
         contentView.heightAnchor.constraint(equalToConstant: 160).isActive = true
     }
@@ -124,7 +125,8 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
         var textWidth: CGFloat = 0
         let height = collectionView.bounds.height
         
-        if let temp = cellModel?.dataModel[indexPath.item].temp {
+        if let cellModel = cellModel as? [HourlyWeatherDataModel] {
+            let temp = cellModel[indexPath.item].temp
             textWidth = temp.width(withConstrainedHeight: CGFloat(18), font: .systemFont(ofSize: 18, weight: .medium))
         }
         
@@ -132,9 +134,11 @@ extension HourlyWeatherTableCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension HourlyWeatherTableCell: Fillable {
-    func fill(by cellModel: CellModels) {
+extension HourlyWeatherTableCell: FillableCell {
+    func fill(by cellModel: CellModel) {
         guard let cellModel = cellModel as? HourlyWeatherTableCellModel else { return }
         infoLabel.text = cellModel.info.capitalizeFirstLetter()
+        self.cellModel = cellModel.collectionCellModel
+        self.dataSource = cellModel.dataSource
     }
 }

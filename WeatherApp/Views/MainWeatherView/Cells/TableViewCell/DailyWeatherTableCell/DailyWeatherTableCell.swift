@@ -46,9 +46,9 @@ final class DailyWeatherTableCell: UITableViewCell {
     
     private var precipitationLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = .zero
-        label.textColor =  #colorLiteral(red: 0.442997992, green: 0.9458556771, blue: 0.9850631356, alpha: 1)
+        label.textColor = .init(rgb: 0x71F1FB)
         return label
     }()
     
@@ -90,7 +90,7 @@ final class DailyWeatherTableCell: UITableViewCell {
     
     private func configureCell() {
         selectionStyle = .none
-        backgroundColor = #colorLiteral(red: 0.4058402008, green: 0.5064953604, blue: 0.7112003601, alpha: 1).withAlphaComponent(0.85)
+        backgroundColor = .init(rgb: 0x6781B5).withAlphaComponent(0.85)
         contentView.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
@@ -167,8 +167,8 @@ final class DailyWeatherTableCell: UITableViewCell {
 
 // MARK: - Fillable
 
-extension DailyWeatherTableCell: Fillable {
-    func fill(by cellModel: CellModels) {
+extension DailyWeatherTableCell: FillableCell {
+    func fill(by cellModel: CellModel) {
         
         guard let cellModel = cellModel as? DailyWeatherCellDataModel  else { return }
         dayLabel.text = cellModel.day

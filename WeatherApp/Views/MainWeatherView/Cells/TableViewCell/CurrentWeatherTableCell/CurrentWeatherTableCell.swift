@@ -11,8 +11,6 @@ final class CurrentWeatherTableCell: UITableViewCell {
     
     static let identifier = "CurrentWeatherCell"
     
-    private let locationService = LocationService()
-    
     // MARK: - UI
     
     private var cityNameLabel: UILabel = {
@@ -117,14 +115,16 @@ final class CurrentWeatherTableCell: UITableViewCell {
     }
 }
 
-extension CurrentWeatherTableCell: Fillable {
-    func fill(by cellModel: CellModels) {
+extension CurrentWeatherTableCell: FillableCell {
+    func fill(by cellModel: CellModel) {
         
         guard let cellModel = cellModel as? CurrentWeatherCellModel else { return }
         
-        locationService.getCityName { [ weak self] placemark in
+        LocationService.shared.getCityName { [ weak self] (placemark, error) in
             if let placemark = placemark {
                 self?.cityNameLabel.text = placemark.locality
+            } else if let error = error {
+                print("\(#function) error handled: \(error.localizedDescription)")
             } else {
                 self?.cityNameLabel.text = cellModel.cityName
             }

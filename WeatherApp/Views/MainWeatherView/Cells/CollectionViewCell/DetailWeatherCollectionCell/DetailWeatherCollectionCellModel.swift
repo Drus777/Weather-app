@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DetailCellDataModel: CellModels {
+final class DetailCellDataModel: CellModel {
     var icon: String
     var title: String
     var data: String
@@ -18,18 +18,20 @@ final class DetailCellDataModel: CellModels {
         self.title = title
         self.data = data
         self.info = info
+        super.init(cellIdentifier: DetailWeatherCollectionCell.identifier)
     }
 }
 
-final class DetailWeatherCollectionCellModel: CellModels {
+final class DetailWeatherCollectionCellModel: CellModel {
     
     var dataModel: [DetailCellDataModel] = []
     
-    init(model: WeatherResponceModel) {
+    init(by model: WeatherResponseModel) {
+        super.init(cellIdentifier: DetailWeatherCollectionCell.identifier)
         self.fillDataModel(by: model)
     }
     
-    private func fillDataModel(by model: WeatherResponceModel) {
+    private func fillDataModel(by model: WeatherResponseModel) {
         var dataModel: [DetailCellDataModel] = []
         
         guard

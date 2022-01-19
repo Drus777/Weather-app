@@ -11,7 +11,7 @@ class DetailWeatherTableCell: UITableViewCell {
 
     static let identifier = "DetailWeatherTableCell"
     
-    var dataSource: DetailWeatherCollectionDataSource? {
+    var dataSource: WeatherCollectionDataSource? {
         didSet {
             collectionView.dataSource = dataSource
             collectionView.reloadData()
@@ -43,7 +43,6 @@ class DetailWeatherTableCell: UITableViewCell {
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.register(DetailWeatherCollectionCell.self, forCellWithReuseIdentifier: DetailWeatherCollectionCell.identifier)
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -66,5 +65,12 @@ extension DetailWeatherTableCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (collectionView.bounds.width - 10) / 2
         return .init(width: width, height: width)
+    }
+}
+
+extension DetailWeatherTableCell: FillableCell {
+    func fill(by cellModel: CellModel) {
+        guard let cellModel = cellModel as? DetailWeatherTableCellModel else { return }
+        self.dataSource = cellModel.dataSource
     }
 }

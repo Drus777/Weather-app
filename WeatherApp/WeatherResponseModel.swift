@@ -61,7 +61,7 @@ struct DailyWeather: Codable {
     var sunset: Int?
 }
 
-struct WeatherResponceModel: Codable {
+struct WeatherResponseModel: Codable {
     var timezone: String?
     var current: CurrentWeather
     var hourly: [HourlyWeather]

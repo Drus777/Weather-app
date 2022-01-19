@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CurrentWeatherCellModel: CellModels {
+final class CurrentWeatherCellModel: CellModel {
     
     var cityName: String
     var currentTemp: Double
@@ -21,5 +21,6 @@ final class CurrentWeatherCellModel: CellModels {
         self.description = description
         self.minTemp = minTemp
         self.maxTemp = maxTemp
+        super.init(cellIdentifier: CurrentWeatherTableCell.identifier)
     }
 }

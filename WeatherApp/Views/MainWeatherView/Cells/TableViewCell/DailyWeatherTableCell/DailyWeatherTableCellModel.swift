@@ -7,19 +7,29 @@
 
 import Foundation
 
-struct DailyWeatherCellDataModel: CellModels {
+final class DailyWeatherCellDataModel: CellModel {
     var day: String
     var icon: String
     var minTemp: Double
     var maxTemp: Double
     var precipitation: Double
+    
+    init(day: String, icon: String, minTemp: Double, maxTemp: Double, precipitation: Double) {
+        self.day = day
+        self.icon = icon
+        self.minTemp = minTemp
+        self.maxTemp = maxTemp
+        self.precipitation = precipitation
+        super.init(cellIdentifier: DailyWeatherTableCell.identifier)
+    }
 }
 
-final class DailyWeatherTableCellModel: CellModels {
+final class DailyWeatherTableCellModel: CellModel {
     
     var dataModel: [DailyWeatherCellDataModel] = []
     
     init(by model: [DailyWeather]) {
+        super.init(cellIdentifier: DailyWeatherTableCell.identifier)
         fillDataModel(by: model)
     }
     

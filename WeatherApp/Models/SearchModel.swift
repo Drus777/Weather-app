@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SearchTableModel: AnyObject, Models {
+protocol SearchTableModel: AnyObject, Model {
     var searchTableDataSource: SearchTableDataSource { get }
 }
 
