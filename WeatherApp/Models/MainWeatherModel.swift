@@ -82,7 +82,6 @@ final class MainWeatherModel: UpdatableModel {
         hourlyWeatherCollectionCellModels = HourlyWeatherCollectionCellModel(by: model).dataModel
         weatherTableCellModels.append(HourlyWeatherTableCellModel(info: description, dataSource: hourlyWeatherCollectionDataSource, collectionCellModel: hourlyWeatherCollectionCellModels))
         weatherTableCellModels.append(DailyWeatherTableCellModel(by: model.daily))
-        weatherTableCellModels.append(MapCellModel(currentTemp: currentTemp))
         weatherTableCellModels.append(DetailWeatherTableCellModel(dataSource: detailWeatherCollectionDataSource))
         detailWeatherCollectionCellModels = DetailWeatherCollectionCellModel(by: model).dataModel
     }
