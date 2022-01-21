@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol BaseVCOutput: AnyObject {
+    func present(controller: UIViewController)
+}
+
 final class BaseVC: UIViewController {
     
     private let currentView: FillableView?
@@ -43,6 +47,11 @@ final class BaseVC: UIViewController {
     }
 }
 
+extension BaseVC: BaseVCOutput {
+    func present(controller: UIViewController) {
+        present(controller, animated: true, completion: nil)
+    }
+}
 
 
 
