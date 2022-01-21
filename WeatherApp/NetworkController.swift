@@ -7,18 +7,19 @@
 
 import Foundation
 
-final class NetworkController {
+protocol LoadableNetwork {
+    func fetchWeatherData(lat: String, lon: String, completion: @escaping (Result<WeatherResponseModel?, Error>) -> Void)
+}
+
+final class NetworkController: LoadableNetwork {
     
     private let apiService = APIService()
     
-    func fetchWeatherData(lat: String, lon: String, units: Units, lang: Lang, apiKey: ApiKeys, completion: @escaping (Result<WeatherResponseModel?, Error>) -> Void) {
+    func fetchWeatherData(lat: String, lon: String, completion: @escaping (Result<WeatherResponseModel?, Error>) -> Void) {
         
         let parameters = [
             URLQueryItem(name: "lat", value: lat),
-            URLQueryItem(name: "lon", value: lon),
-            URLQueryItem(name: "units", value: units.rawValue),
-            URLQueryItem(name: "lang", value: lang.rawValue),
-            URLQueryItem(name: "appid", value: apiKey.rawValue)
+            URLQueryItem(name: "lon", value: lon)
         ]
         
         apiService.loadData(

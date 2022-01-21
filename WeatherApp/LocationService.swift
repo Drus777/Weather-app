@@ -12,7 +12,7 @@ final class LocationService: NSObject { // переименовать в мен�
     
     static let shared = LocationService()
     
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
     
     var coordinate: CLLocationCoordinate2D? {

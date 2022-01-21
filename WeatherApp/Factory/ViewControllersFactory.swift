@@ -10,7 +10,8 @@ import UIKit
 struct ViewControllersFactory {
     
     func weatherVC() -> UIViewController {
-        let model: UpdatableModel = MainWeatherModel()
+        let networkController = NetworkController()
+        let model: UpdatableModel = MainWeatherModel(networkController: networkController)
         let headerModel = HeaderModel(icon: "calendar", title: "Прогноз погоды на 8 дней")
         let headerView = HeaderView(by: headerModel)
         let view = MainWeatherView(headerView: headerView)

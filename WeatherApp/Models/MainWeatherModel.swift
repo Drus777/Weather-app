@@ -14,7 +14,8 @@ protocol UpdatableModel: AnyObject, Model {
 }
 
 final class MainWeatherModel: UpdatableModel {
-    private let networkController = NetworkController()
+    
+    private let networkController: LoadableNetwork
     
     var weatherTableDataSource = WeatherTableDataSource()
     var hourlyWeatherCollectionDataSource = WeatherCollectionDataSource()
@@ -41,13 +42,17 @@ final class MainWeatherModel: UpdatableModel {
     
     var weatherTableCellModelsDidChange: (() -> Void)?
     
+    init(networkController: LoadableNetwork) {
+        self.networkController = networkController
+    }
+    
     func loadData() {
         //проверять текущую локализацию и ставить ее дефолтной(как хост)
-        networkController.fetchWeatherData(lat: "\(LocationService.shared.coordinate?.latitude ?? 0)", lon: "\(LocationService.shared.coordinate?.longitude ?? 0)", units: .metric, lang: .ru, apiKey: .mainKey) { [weak self] result in
+        networkController.fetchWeatherData(lat: "\(LocationService.shared.coordinate?.latitude ?? 0)", lon: "\(LocationService.shared.coordinate?.longitude ?? 0)") { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let responseModel):
-                self.setCellModels(responseModel)
+            case .success(let weatherResponse):
+                self.setCellModels(weatherResponse)
             case .failure(let error):
                 print("\(#function) error handled: \(error.localizedDescription)")
             }

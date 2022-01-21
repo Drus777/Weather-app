@@ -20,9 +20,10 @@ final class APIService {
 
 extension APIService {
     
-    func loadData<T: Codable>(host: String? = nil, endpoint: String, method: HTTPMethod, parameters: [URLQueryItem], apiKey: String? = nil, body: Data? = nil, responseModel: T.Type, _ completion: @escaping (Result<T?, Error>) -> Void) {
+    func loadData<T: Codable>(host: String? = nil, endpoint: String, method: HTTPMethod, parameters: [URLQueryItem], apiKey: String? = nil, lang: String? = nil, units: String? = nil, body: Data? = nil, responseModel: T.Type, _ completion: @escaping (Result<T?, Error>) -> Void) {
         
-        guard let url = url(for: host ?? Hosts.openweathermap.rawValue, endpoint: endpoint, apiKey: apiKey ?? ApiKeys.mainKey.rawValue, parameters: parameters) else { return }
+        guard let url = url(for: host ?? Hosts.openweathermap.rawValue, endpoint: endpoint, apiKey: apiKey ?? ApiKeys.mainKey.rawValue, lang: lang ?? Lang.ru.rawValue, units: units ?? Units.metric.rawValue, parameters: parameters)
+        else { return }
         let request = request(url: url, method: method, body: body)
         dataSession.dataTask(with: request) { (data, response, error) in
             if let data = data {
@@ -43,13 +44,17 @@ extension APIService {
 
 private extension APIService {
     
-    func url(for host: String, endpoint: String, apiKey: String, parameters: [URLQueryItem]) -> URL? {
+    func url(for host: String, endpoint: String, apiKey: String, lang: String, units: String, parameters: [URLQueryItem]) -> URL? {
         
         guard let path = [host, endpoint].joined().encodeUrl(),
               var components = URLComponents(string: path)
         else { return nil }
         
-        let generalParameters: [URLQueryItem] = [URLQueryItem(name: "appid", value: apiKey)]
+        let generalParameters: [URLQueryItem] = [
+            URLQueryItem(name: "appid", value: apiKey),
+            URLQueryItem(name: "lang", value: lang),
+            URLQueryItem(name: "units", value: units)
+        ]
         
         let parameters = parameters + generalParameters
         if !parameters.isEmpty {
